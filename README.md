@@ -1,6 +1,10 @@
-# Sequel::Sharding
+Sequel::Sharding
+================
 
-TODO: Write a gem description
+[![Build Status](https://travis-ci.org/wanelo/sequel-sharding.png?branch=master)](https://travis-ci.org/wanelo/sequel-sharding)
+
+Horizontally shard postgres with the Sequel gem. This gem allows you to configure mappings between logical and
+physical shards, and pool connections between logical shards on the same physical server.
 
 ## Installation
 
@@ -18,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO :)
 
 ## Contributing
 
