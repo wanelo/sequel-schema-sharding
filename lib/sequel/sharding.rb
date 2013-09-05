@@ -38,7 +38,7 @@ module Sequel
       @sharding_yml_path ||= File.expand_path('../../../config/sharding.yml', __FILE__)
     end
 
-    def self.sharding_yaml_path=(path)
+    def self.sharding_yml_path=(path)
       @sharding_yml_path = path
     end
 

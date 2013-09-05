@@ -21,7 +21,7 @@ RSpec.configure do |config|
 
   config.before :all do |ex|
     Sequel::Sharding.logger = Logger.new(StringIO.new)
-    Sequel::Sharding.sharding_yaml_path = "spec/fixtures/test_db_config.yml"
+    Sequel::Sharding.sharding_yml_path = "spec/fixtures/test_db_config.yml"
     Sequel::Sharding.migration_path = "spec/fixtures/db/migrate"
   end
 
