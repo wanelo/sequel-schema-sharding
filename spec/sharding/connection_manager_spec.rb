@@ -2,14 +2,11 @@ require 'spec_helper'
 require 'sequel/sharding/connection_manager'
 
 describe Sequel::Sharding::ConnectionManager do
+  let(:config) { Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml') }
 
-  before do
-    Sequel::Sharding.config = Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml')
-  end
+  subject { Sequel::Sharding::ConnectionManager.new }
 
-  subject {
-    Sequel::Sharding::ConnectionManager.new
-  }
+  before { subject.stubs(:config).returns(config) }
 
   describe '#[]' do
     it 'returns a valid connection instance for the specified physical shard' do

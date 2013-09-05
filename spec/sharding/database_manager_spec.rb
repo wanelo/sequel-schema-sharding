@@ -3,16 +3,15 @@ require 'sequel/sharding'
 
 describe Sequel::Sharding::DatabaseManager, type: :manager, sharded: true do
 
-  before(:each) do
-    Sequel::Sharding.config = Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml')
-  end
+  let(:config) { Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml') }
 
   after do
-    Sequel::Sharding.config = nil
     Sequel::Sharding.connection_manager.disconnect
   end
 
   around do |ex|
+    Sequel::Sharding.stubs(:config).returns(config)
+
     @manager = Sequel::Sharding::DatabaseManager.new
     @manager.send(:connection_manager).disconnect
     DatabaseHelper.disconnect
