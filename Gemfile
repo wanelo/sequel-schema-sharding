@@ -5,5 +5,5 @@ gemspec
 
 group :test do
   gem 'rspec'
-  gem 'mocha'
+  gem 'mocha', require: false
 end

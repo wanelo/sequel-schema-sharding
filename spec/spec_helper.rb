@@ -4,6 +4,7 @@ require 'bundler/setup'
 Bundler.require 'test'
 
 require 'support/database_helper'
+require 'mocha/api'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
