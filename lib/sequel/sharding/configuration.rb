@@ -17,17 +17,26 @@ module Sequel
         end
       end
 
-      def logical_shard_configs
-        @logical_shard_configs ||= config['logical_shards'].inject({}) do |hash, value|
-          eval(value[0]).each do |i|
-            hash[i] = value[1]
+      def logical_shard_configs(table_name)
+        @logical_shard_table_configs ||= {}
+        @logical_shard_table_configs[table_name] ||= begin
+          table_configs = config['tables'][table_name]
+          raise "Unknown table #{table_name} in configuration" if table_configs.nil?
+          table_configs['logical_shards'].inject({}) do |hash, value|
+            eval(value[0]).each do |i|
+              hash[i] = value[1]
+            end
+            hash
           end
-          hash
         end
       end
 
-      def schema_name
-        config['schema_name']
+      def table_names
+        config['tables'].keys
+      end
+
+      def schema_name(table_name)
+        config['tables'][table_name]['schema_name']
       end
 
       private

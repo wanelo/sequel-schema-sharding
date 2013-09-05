@@ -3,6 +3,7 @@ ENV['RACK_ENV'] ||= 'test'
 require 'bundler/setup'
 Bundler.require 'test'
 
+require 'sequel-sharding'
 require 'support/database_helper'
 require 'mocha/api'
 

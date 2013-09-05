@@ -7,7 +7,7 @@ describe Sequel::Sharding::Configuration do
 
   describe '#logical_shard_configs' do
     it 'returns a hash representing the mapping between logical and physical shards' do
-      shards = config.logical_shard_configs
+      shards = config.logical_shard_configs('boof')
 
       expect(shards.length).to eq(20)
 

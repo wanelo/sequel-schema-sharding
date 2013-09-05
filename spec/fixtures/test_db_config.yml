@@ -1,8 +1,15 @@
 test:
-  schema_name: sequel_logical_%e_%s
-  logical_shards:
-    1..10: shard1
-    11..20: shard2
+  tables:
+    artists:
+      schema_name: sequel_logical_artists_%e_%s
+      logical_shards:
+        1..10: shard1
+        11..20: shard2
+    boof:
+      schema_name: sequel_logical_boof_%e_%s
+      logical_shards:
+        1..10: shard1
+        11..20: shard2
   physical_shards:
     shard1:
       host: 127.0.0.1
@@ -14,10 +21,17 @@ test:
     username: postgres
     password: boomboomkaboom
 boom:
-  schema_name: sequel_explosions_%e_%s
-  logical_shards:
-    1..10: shard1
-    11..20: shard2
+  tables:
+    artists:
+      schema_name: sequel_explosions_artists_%e_%s
+      logical_shards:
+        1..10: shard1
+        11..20: shard2
+    boof:
+      schema_name: sequel_explosions_boof_%e_%s
+      logical_shards:
+        1..10: shard1
+        11..20: shard2
   physical_shards:
     shard1:
       host: 127.0.0.1

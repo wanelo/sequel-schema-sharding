@@ -16,7 +16,7 @@ module Sequel
     # end
 
     def self.Model(source)
-      klass = Sequel::Model(source)
+      klass = Sequel::Model(Sequel::Sharding.connection_manager.default_dataset_for(source))
 
       klass.include(Sharding::ShardedModel)
 
@@ -57,7 +57,7 @@ module Sequel
 
         # The result of a lookup for the given id. See Sequel::Sharding::Finder::Result
         def result_for(id)
-          Sequel::Sharding::Finder.instance.lookup(id)
+          Sequel::Sharding::Finder.instance.lookup(self.implicit_table_name, id)
         end
 
         # Construct the schema and table for use in a dataset.

@@ -14,24 +14,25 @@ module Sequel
 
       include ::Singleton
 
-      def lookup(id)
-        shard_number = shard_for_id(id)
-        physical_shard = config.logical_shard_configs[shard_number]
+      def lookup(table_name, id)
+        shard_number = shard_for_id(table_name, id)
+        physical_shard = config.logical_shard_configs(table_name)[shard_number]
 
         conn = Sequel::Sharding.connection_manager[physical_shard]
-        schema = Sequel::Sharding.connection_manager.schema_for(config.env, shard_number)
+        schema = Sequel::Sharding.connection_manager.schema_for(table_name, config.env, shard_number)
 
         Result.new(conn, schema)
       end
 
       private
 
-      def shard_for_id(id)
-        ring.shard_for_id(id)
+      def shard_for_id(table_name, id)
+        ring(table_name).shard_for_id(id)
       end
 
-      def ring
-        @ring ||= Sequel::Sharding::Ring.new(config.logical_shard_configs.keys)
+      def ring(table_name)
+        @rings ||= {}
+        @rings[table_name] ||= Sequel::Sharding::Ring.new(config.logical_shard_configs(table_name).keys)
       end
 
       def config

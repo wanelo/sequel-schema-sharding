@@ -17,7 +17,7 @@ describe Sequel::Sharding::ConnectionManager do
 
   describe "#schema_for" do
     it "returns the schema name based on env and shard number" do
-      subject.schema_for("pickles", 3).should eq "sequel_explosions_pickles_3"
+      subject.schema_for('boof', 'pickles', 3).should eq 'sequel_explosions_boof_pickles_3'
     end
   end
 
@@ -25,9 +25,9 @@ describe Sequel::Sharding::ConnectionManager do
     it "returns a dataset scoped to a configured schema" do
       # TODO ConnectionManager is dependent on global state from Sequel::Sharding.config.
       #      This should be deconstructed to allow for injection of a mock config for testing.
-      dataset = subject.default_dataset_for("some_stuffs")
+      dataset = subject.default_dataset_for("artists")
       expect(dataset).to be_a(Sequel::Dataset)
-      expect(dataset.first_source_table).to eql(:'sequel_explosions_test_1__some_stuffs')
+      expect(dataset.first_source_table).to eql(:'sequel_explosions_artists_test_1__artists')
     end
   end
 end
