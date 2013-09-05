@@ -1,0 +1,53 @@
+test:
+  schema_name: sequel_logical_%e_%s
+  logical_shards:
+    1..10: shard1
+    11..20: shard2
+  physical_shards:
+    shard1:
+      host: 127.0.0.1
+      database: sequel_test_shard1
+    shard2:
+      host: 127.0.0.1
+      database: sequel_test_shard2
+  common:
+    username: postgres
+    password: boomboomkaboom
+boom:
+  schema_name: sequel_explosions_%e_%s
+  logical_shards:
+    1..10: shard1
+    11..20: shard2
+  physical_shards:
+    shard1:
+      host: 127.0.0.1
+      database: sequel_boom_shard1
+    shard2:
+      host: 127.0.0.1
+      database: sequel_boom_shard2
+  common:
+    username: postgres
+    password: boomboomkaboom
+    port: 5432
+#boom:
+#  logical_shards:
+#    user_saves:
+#      1..10: shard1
+#      11..20: shard2
+#    product_saves:
+#      1..10: shard2
+#      11..20: shard3
+#  physical_shards:
+#    shard1:
+#      host: 127.0.0.1
+#      database: wanelo_saves_boom_shard1
+#    shard2:
+#      host: 127.0.0.1
+#      database: wanelo_saves_boom_shard2
+#    shard3:
+#      host: 127.0.0.1
+#      database: wanelo_saves_boom_shard3
+#  common:
+#    username: postgres
+#    password: boomboomkaboom
+#    port: 5432

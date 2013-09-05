@@ -1,0 +1,44 @@
+require 'yaml'
+
+module Sequel
+  module Sharding
+    class Configuration
+      attr_reader :env, :yaml_path
+
+      def initialize(env, yaml_path)
+        @env = env
+        @yaml_path = yaml_path
+      end
+
+      def physical_shard_configs
+        @physical_shard_configs ||= config['physical_shards'].inject({}) do |hash, value|
+          hash[value[0]] = config['common'].merge(value[1])
+          hash
+        end
+      end
+
+      def logical_shard_configs
+        @logical_shard_configs ||= config['logical_shards'].inject({}) do |hash, value|
+          eval(value[0]).each do |i|
+            hash[i] = value[1]
+          end
+          hash
+        end
+      end
+
+      def schema_name
+        config['schema_name']
+      end
+
+      private
+
+      def config
+        yaml[env.to_s]
+      end
+
+      def yaml
+        @raw_yaml ||= YAML.load_file(yaml_path)
+      end
+    end
+  end
+end

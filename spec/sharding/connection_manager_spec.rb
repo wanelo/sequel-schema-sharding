@@ -1,0 +1,36 @@
+require 'spec_helper'
+require 'sequel/sharding/connection_manager'
+
+describe Sequel::Sharding::ConnectionManager do
+
+  before do
+    Sequel::Sharding.config = Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml')
+  end
+
+  subject {
+    Sequel::Sharding::ConnectionManager.new
+  }
+
+  describe '#[]' do
+    it 'returns a valid connection instance for the specified physical shard' do
+      expect(subject['shard1']).to be_a(Sequel::Postgres::Database)
+      expect(subject['shard2']).to be_a(Sequel::Postgres::Database)
+    end
+  end
+
+  describe "#schema_for" do
+    it "returns the schema name based on env and shard number" do
+      subject.schema_for("pickles", 3).should eq "sequel_explosions_pickles_3"
+    end
+  end
+
+  describe "#default_dataset_for" do
+    it "returns a dataset scoped to a configured schema" do
+      # TODO ConnectionManager is dependent on global state from Sequel::Sharding.config.
+      #      This should be deconstructed to allow for injection of a mock config for testing.
+      dataset = subject.default_dataset_for("some_stuffs")
+      expect(dataset).to be_a(Sequel::Dataset)
+      expect(dataset.first_source_table).to eql(:'sequel_explosions_test_1__some_stuffs')
+    end
+  end
+end
