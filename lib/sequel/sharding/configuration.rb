@@ -18,6 +18,7 @@ module Sequel
       end
 
       def logical_shard_configs(table_name)
+        table_name = table_name.to_s
         @logical_shard_table_configs ||= {}
         @logical_shard_table_configs[table_name] ||= begin
           table_configs = config['tables'][table_name]
@@ -36,7 +37,7 @@ module Sequel
       end
 
       def schema_name(table_name)
-        config['tables'][table_name]['schema_name']
+        config['tables'][table_name.to_s]['schema_name']
       end
 
       private
