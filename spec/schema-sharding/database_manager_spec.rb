@@ -1,18 +1,18 @@
 require 'spec_helper'
-require 'sequel/sharding'
+require 'sequel/schema-sharding'
 
-describe Sequel::Sharding::DatabaseManager, type: :manager, sharded: true do
+describe Sequel::SchemaSharding::DatabaseManager, type: :manager, sharded: true do
 
-  let(:config) { Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml') }
+  let(:config) { Sequel::SchemaSharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml') }
 
   after do
-    Sequel::Sharding.connection_manager.disconnect
+    Sequel::SchemaSharding.connection_manager.disconnect
   end
 
   around do |ex|
-    Sequel::Sharding.stubs(:config).returns(config)
+    Sequel::SchemaSharding.stubs(:config).returns(config)
 
-    @manager = Sequel::Sharding::DatabaseManager.new
+    @manager = Sequel::SchemaSharding::DatabaseManager.new
     @manager.send(:connection_manager).disconnect
     DatabaseHelper.disconnect
 

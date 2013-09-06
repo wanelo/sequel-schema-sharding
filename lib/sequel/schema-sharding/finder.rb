@@ -1,7 +1,7 @@
 require 'singleton'
 
 module Sequel
-  module Sharding
+  module SchemaSharding
     class Finder
       class Result
         attr_reader :connection, :schema
@@ -18,8 +18,8 @@ module Sequel
         shard_number = shard_for_id(table_name, id)
         physical_shard = config.logical_shard_configs(table_name)[shard_number]
 
-        conn = Sequel::Sharding.connection_manager[physical_shard]
-        schema = Sequel::Sharding.connection_manager.schema_for(table_name, config.env, shard_number)
+        conn = Sequel::SchemaSharding.connection_manager[physical_shard]
+        schema = Sequel::SchemaSharding.connection_manager.schema_for(table_name, config.env, shard_number)
 
         Result.new(conn, schema)
       end
@@ -32,11 +32,11 @@ module Sequel
 
       def ring(table_name)
         @rings ||= {}
-        @rings[table_name] ||= Sequel::Sharding::Ring.new(config.logical_shard_configs(table_name).keys)
+        @rings[table_name] ||= Sequel::SchemaSharding::Ring.new(config.logical_shard_configs(table_name).keys)
       end
 
       def config
-        Sequel::Sharding.config
+        Sequel::SchemaSharding.config
       end
     end
   end

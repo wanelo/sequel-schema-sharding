@@ -1,4 +1,4 @@
-Sequel::Sharding
+Sequel::SchemaSharding
 ================
 
 [![Build Status](https://travis-ci.org/wanelo/sequel-sharding.png?branch=master)](https://travis-ci.org/wanelo/sequel-sharding)

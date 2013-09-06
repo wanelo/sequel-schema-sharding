@@ -3,7 +3,7 @@ ENV['RACK_ENV'] ||= 'test'
 require 'bundler/setup'
 Bundler.require 'test'
 
-require 'sequel-sharding'
+require 'sequel-schema-sharding'
 require 'support/database_helper'
 require 'mocha/api'
 
@@ -22,17 +22,17 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.before :all do |ex|
-    Sequel::Sharding.logger = Logger.new(StringIO.new)
-    Sequel::Sharding.sharding_yml_path = "spec/fixtures/test_db_config.yml"
-    Sequel::Sharding.migration_path = "spec/fixtures/db/migrate"
+    Sequel::SchemaSharding.logger = Logger.new(StringIO.new)
+    Sequel::SchemaSharding.sharding_yml_path = "spec/fixtures/test_db_config.yml"
+    Sequel::SchemaSharding.migration_path = "spec/fixtures/db/migrate"
   end
 
   config.around :each do |ex|
-    #Sequel::Sharding.config = Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml')
+    #Sequel::SchemaSharding.config = Sequel::SchemaSharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml')
 
     # Start transactions in each connection to the physical shards
-    connections = Sequel::Sharding.config.physical_shard_configs.map do |shard_config|
-      Sequel::Sharding.connection_manager[shard_config[0]]
+    connections = Sequel::SchemaSharding.config.physical_shard_configs.map do |shard_config|
+      Sequel::SchemaSharding.connection_manager[shard_config[0]]
     end
 
     start_transaction_proc = Proc.new do |connections|

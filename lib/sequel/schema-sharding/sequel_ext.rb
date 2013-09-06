@@ -1,5 +1,5 @@
 module Sequel
-  module Sharding
+  module SchemaSharding
     module SequelExt
       module ClassMethods
         def db
@@ -10,5 +10,5 @@ module Sequel
   end
 end
 
-Sequel::Model.plugin Sequel::Sharding::SequelExt
+Sequel::Model.plugin Sequel::SchemaSharding::SequelExt
 Sequel::Model.plugin :validation_helpers

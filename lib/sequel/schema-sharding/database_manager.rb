@@ -1,10 +1,10 @@
 require 'sequel'
-require 'sequel/sharding/connection_manager'
+require 'sequel/schema-sharding/connection_manager'
 
 Sequel.extension :migration
 
 module Sequel
-  module Sharding
+  module SchemaSharding
     class DatabaseManager
       def create_databases
         config.physical_shard_configs.each_pair do |name, config|
@@ -14,7 +14,7 @@ module Sequel
               :password => config['password'],
               :host => config['host'])
 
-            Sequel::Sharding.logger.info "Creating #{config['database']}.."
+            Sequel::SchemaSharding.logger.info "Creating #{config['database']}.."
 
             connection.run("CREATE DATABASE #{config['database']}")
           rescue Sequel::DatabaseError => e
@@ -38,7 +38,7 @@ module Sequel
               :password => config['password'],
               :host => config['host'])
 
-            Sequel::Sharding.logger.info "Dropping #{config['database']}.."
+            Sequel::SchemaSharding.logger.info "Dropping #{config['database']}.."
             connection.run("DROP DATABASE #{config['database']}")
           rescue Sequel::DatabaseError => e
             if e.message.include?('does not exist')
@@ -56,7 +56,7 @@ module Sequel
         config.table_names.each do |table_name|
           config.logical_shard_configs(table_name).each_pair do |shard_number, physical_shard|
             schema_name = connection_manager.schema_for(table_name, env, shard_number)
-            Sequel::Sharding.logger.info "Creating schema #{schema_name} on #{physical_shard}.."
+            Sequel::SchemaSharding.logger.info "Creating schema #{schema_name} on #{physical_shard}.."
             connection = connection_manager[physical_shard]
 
             begin
@@ -71,7 +71,7 @@ module Sequel
 
             connection.run("SET search_path TO #{schema_name}")
 
-            Sequel::Migrator.run(connection, Sequel::Sharding.migration_path + "/#{table_name}", :use_transactions => true)
+            Sequel::Migrator.run(connection, Sequel::SchemaSharding.migration_path + "/#{table_name}", :use_transactions => true)
           end
         end
       end
@@ -80,7 +80,7 @@ module Sequel
         config.table_names.each do |table_name|
           config.logical_shard_configs(table_name).each_pair do |shard_number, physical_shard|
             schema_name = connection_manager.schema_for(table_name, env, shard_number)
-            Sequel::Sharding.logger.info "Dropping schema #{schema_name} on #{physical_shard}.."
+            Sequel::SchemaSharding.logger.info "Dropping schema #{schema_name} on #{physical_shard}.."
             connection = connection_manager[physical_shard]
             connection.run("DROP SCHEMA #{schema_name} CASCADE")
           end
@@ -94,11 +94,11 @@ module Sequel
       end
 
       def config
-        Sequel::Sharding.config
+        Sequel::SchemaSharding.config
       end
 
       def connection_manager
-        Sequel::Sharding.connection_manager
+        Sequel::SchemaSharding.connection_manager
       end
     end
   end

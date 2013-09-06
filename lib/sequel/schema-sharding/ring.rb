@@ -2,7 +2,7 @@ require 'digest/sha1'
 require 'zlib'
 
 module Sequel
-  module Sharding
+  module SchemaSharding
     class Ring
       POINTS_PER_SERVER = 1
 

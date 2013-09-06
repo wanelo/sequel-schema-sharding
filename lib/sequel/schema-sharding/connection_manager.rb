@@ -1,7 +1,7 @@
 require 'singleton'
 
 module Sequel
-  module Sharding
+  module SchemaSharding
     class ConnectionManager
       attr_reader :connections
 
@@ -41,7 +41,7 @@ module Sequel
       end
 
       def config
-        Sequel::Sharding.config
+        Sequel::SchemaSharding.config
       end
     end
   end

@@ -1,17 +1,17 @@
-require "sequel/sharding/version"
-require 'sequel/sharding/configuration'
-require 'sequel/sharding/connection_manager'
-require 'sequel/sharding/database_manager'
-require 'sequel/sharding/ring'
-require 'sequel/sharding/finder'
-require 'sequel/sharding/sequel_ext'
-require 'sequel/sharding/model'
+require 'sequel/schema-sharding/version'
+require 'sequel/schema-sharding/configuration'
+require 'sequel/schema-sharding/connection_manager'
+require 'sequel/schema-sharding/database_manager'
+require 'sequel/schema-sharding/ring'
+require 'sequel/schema-sharding/finder'
+require 'sequel/schema-sharding/sequel_ext'
+require 'sequel/schema-sharding/model'
 require 'logger'
 
 module Sequel
-  module Sharding
+  module SchemaSharding
     def self.config
-      @config ||= Sequel::Sharding::Configuration.new(ENV['RACK_ENV'], sharding_yml_path)
+      @config ||= Sequel::SchemaSharding::Configuration.new(ENV['RACK_ENV'], sharding_yml_path)
     end
 
     def self.config=(config)

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Sequel::Sharding, 'Model' do
+describe Sequel::SchemaSharding, 'Model' do
 
   let(:model) do
-    klass = Sequel::Sharding::Model('artists')
+    klass = Sequel::SchemaSharding::Model('artists')
     klass.instance_eval do
       set_sharded_column :artist_id
       set_columns [:artist_id, :name]

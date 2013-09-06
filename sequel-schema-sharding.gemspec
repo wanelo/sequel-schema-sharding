@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sequel/sharding/version'
+require 'sequel/schema-sharding/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "sequel-sharding"
-  spec.version       = Sequel::Sharding::VERSION
+  spec.version       = Sequel::SchemaSharding::VERSION
   spec.authors       = ["Paul Henry", "James Hart", "Eric Saxby"]
   spec.email         = ["dev@wanelo.com"]
   spec.description   = %q{}

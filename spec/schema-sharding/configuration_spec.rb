@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'sequel/sharding/configuration'
+require 'sequel/schema-sharding/configuration'
 
-describe Sequel::Sharding::Configuration do
+describe Sequel::SchemaSharding::Configuration do
 
-  let(:config) { Sequel::Sharding::Configuration.new(:boom, 'spec/fixtures/test_db_config.yml') }
+  let(:config) { Sequel::SchemaSharding::Configuration.new(:boom, 'spec/fixtures/test_db_config.yml') }
 
   describe '#logical_shard_configs' do
     it 'returns a hash representing the mapping between logical and physical shards' do

@@ -1,11 +1,11 @@
 require 'sequel'
 
 module Sequel
-  module Sharding
+  module SchemaSharding
     # Extensions to the Sequel model to allow logical/physical shards. Actual table models should
     # inherit this class like so:
     #
-    # class Cat < Sequel::Sharding::Model
+    # class Cat < Sequel::SchemaSharding::Model
     #   set_columns [:cat_id, :fur, :tongue, :whiskers] # Columns in the database need to be predefined.
     #   set_sharded_column :cat_id # Define the shard column
     #
@@ -16,9 +16,9 @@ module Sequel
     # end
 
     def self.Model(source)
-      klass = Sequel::Model(Sequel::Sharding.connection_manager.default_dataset_for(source))
+      klass = Sequel::Model(Sequel::SchemaSharding.connection_manager.default_dataset_for(source))
 
-      klass.include(Sharding::ShardedModel)
+      klass.include(SchemaSharding::ShardedModel)
 
       klass
     end
@@ -55,9 +55,9 @@ module Sequel
           ds
         end
 
-        # The result of a lookup for the given id. See Sequel::Sharding::Finder::Result
+        # The result of a lookup for the given id. See Sequel::SchemaSharding::Finder::Result
         def result_for(id)
-          Sequel::Sharding::Finder.instance.lookup(self.implicit_table_name, id)
+          Sequel::SchemaSharding::Finder.instance.lookup(self.implicit_table_name, id)
         end
 
         # Construct the schema and table for use in a dataset.

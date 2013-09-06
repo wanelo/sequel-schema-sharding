@@ -1,7 +1,7 @@
 require 'yaml'
 
 module Sequel
-  module Sharding
+  module SchemaSharding
     class Configuration
       attr_reader :env, :yaml_path
 

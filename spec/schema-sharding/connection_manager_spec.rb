@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'sequel/sharding/connection_manager'
+require 'sequel/schema-sharding/connection_manager'
 
-describe Sequel::Sharding::ConnectionManager do
-  let(:config) { Sequel::Sharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml') }
+describe Sequel::SchemaSharding::ConnectionManager do
+  let(:config) { Sequel::SchemaSharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml') }
 
-  subject { Sequel::Sharding::ConnectionManager.new }
+  subject { Sequel::SchemaSharding::ConnectionManager.new }
 
   before { subject.stubs(:config).returns(config) }
 
@@ -23,7 +23,7 @@ describe Sequel::Sharding::ConnectionManager do
 
   describe "#default_dataset_for" do
     it "returns a dataset scoped to a configured schema" do
-      # TODO ConnectionManager is dependent on global state from Sequel::Sharding.config.
+      # TODO ConnectionManager is dependent on global state from Sequel::SchemaSharding.config.
       #      This should be deconstructed to allow for injection of a mock config for testing.
       dataset = subject.default_dataset_for("artists")
       expect(dataset).to be_a(Sequel::Dataset)

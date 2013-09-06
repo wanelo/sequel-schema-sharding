@@ -30,6 +30,6 @@ class DatabaseHelper
   end
 
   def self.schemas(database)
-    Sequel::Sharding.connection_manager[database].fetch('select nspname from pg_catalog.pg_namespace;').all.map { |d| d[:nspname] }
+    Sequel::SchemaSharding.connection_manager[database].fetch('select nspname from pg_catalog.pg_namespace;').all.map { |d| d[:nspname] }
   end
 end
