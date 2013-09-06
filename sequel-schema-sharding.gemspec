@@ -4,13 +4,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'sequel/schema-sharding/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sequel-sharding"
+  spec.name          = "sequel-schema-sharding"
   spec.version       = Sequel::SchemaSharding::VERSION
   spec.authors       = ["Paul Henry", "James Hart", "Eric Saxby"]
   spec.email         = ["dev@wanelo.com"]
   spec.description   = %q{}
   spec.summary       = %q{Create horizontally sharded Sequel models with Postgres}
-  spec.homepage      = "https://github.com/wanelo/sequel-sharding"
+  spec.homepage      = "https://github.com/wanelo/sequel-schema-sharding"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
