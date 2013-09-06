@@ -30,6 +30,7 @@ module Sequel
       end
 
       def drop_databases
+        connection_manager.disconnect
         config.physical_shard_configs.each_pair do |name, config|
           # Need to create connection manually with specifying a database in order to create the database
           begin
