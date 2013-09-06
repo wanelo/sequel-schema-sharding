@@ -1,7 +1,7 @@
 Sequel::SchemaSharding
 ================
 
-[![Build Status](https://travis-ci.org/wanelo/sequel-sharding.png?branch=master)](https://travis-ci.org/wanelo/sequel-sharding)
+[![Build Status](https://travis-ci.org/wanelo/sequel-schema-sharding.png?branch=master)](https://travis-ci.org/wanelo/sequel-schema-sharding)
 
 Horizontally shard postgres with the Sequel gem. This gem allows you to configure mappings between logical and
 physical shards, and pool connections between logical shards on the same physical server.
@@ -10,7 +10,7 @@ physical shards, and pool connections between logical shards on the same physica
 
 Add this line to your application's Gemfile:
 
-    gem 'sequel-sharding'
+    gem 'sequel-schema-sharding'
 
 And then execute:
 
@@ -18,7 +18,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install sequel-sharding
+    $ gem install sequel-schema-harding
 
 ## Usage
 
