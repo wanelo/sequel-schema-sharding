@@ -120,8 +120,8 @@ before you can load models into memory.
 
 Read access always starts with the `:shard_for` method, to ensure that
 the correct database connection and shard name is used. Writes will
-automatically choose the correct shard based on the sharded column,
-which should never be null.
+automatically choose the correct shard based on the sharded column.
+Never try to insert records with nil values in sharded columns.
 
 
 ## FAQ
