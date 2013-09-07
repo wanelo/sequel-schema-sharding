@@ -241,7 +241,7 @@ migrating data into a new database backend, the algorithm by which
 schemas are chosen will start returning a different mapping for reads than
 that which was used to insert data. New records will go into the new
 mapping, but any attempt to read a record inserted via the old mapping
-would pick the wrong shard and return an empty set. DON'T EVER DO THIS.
+will pick the wrong shard and return an empty set. DON'T EVER DO THIS.
 It's really embarrassing.
 
 
