@@ -1,0 +1,53 @@
+test:
+  tables:
+    artists:
+      schema_name: artists_%e_%s
+      logical_shards:
+        1..2: shard1
+        3..4: shard2
+    albums:
+      schema_name: albums_%e_%s
+      logical_shards:
+        1..2: shard2
+        3..4: shard3
+  physical_shards:
+    shard1:
+      host: 127.0.0.1
+      database: my_project_test_shard1
+    shard2:
+      host: 127.0.0.1
+      database: my_project_test_shard2
+    shard3:
+      host: 127.0.0.1
+      database: my_project_test_shard3
+  common:
+    username: postgres
+    password: 
+    port: 5432
+development:
+  tables:
+    artists:
+      schema_name: artists_%e_%s
+      logical_shards:
+        1..2: shard1
+        3..4: shard2
+    albums:
+      schema_name: albums_%e_%s
+      logical_shards:
+        1..2: shard2
+        3..4: shard3
+  physical_shards:
+    shard1:
+      host: 127.0.0.1
+      database: my_project_development_shard1
+    shard2:
+      host: 127.0.0.1
+      database: my_project_development_shard2
+    shard3:
+      host: 127.0.0.1
+      database: my_project_development_shard3
+  common:
+    username: postgres
+    password: 
+    port: 5432
+
