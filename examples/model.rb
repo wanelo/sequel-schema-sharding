@@ -9,6 +9,10 @@ class Thing < Sequel::SchemaSharding::Model('things')
   # however.
   @require_modification = false
 
+  def this
+    @this ||= self.class.by_name(name)
+  end
+
   def self.by_name(name)
     shard_for(name).where(name: name)
   end

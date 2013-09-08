@@ -99,11 +99,23 @@ require 'config/sharding'
 class Artist < Sequel::SchemaSharding::Model('artists')
   set_columns [:id, :name]
   set_sharded_column :id
+
+  def this
+    @this ||= self.class.by_id(id)
+  end
+
+  def self.by_id(id)
+    shard_for(id).where(id: id).first
+  end
 end
 
 class Album < Sequel::SchemaSharding::Model('albums')
   set_columns [:artist_id, :name, :release_date, :created_at]
   set_sharded_column :artist_id
+
+  def this
+    @this ||= self.class.by_artist(artist_id)
+  end
 
   def by_artist(artist_id)
     shard_for(artist_id).where(artist_id: artist_id)
@@ -123,6 +135,7 @@ the correct database connection and shard name is used. Writes will
 automatically choose the correct shard based on the sharded column.
 Never try to insert records with nil values in sharded columns.
 
+TODO: explain why we define `this`
 
 ## FAQ
 
