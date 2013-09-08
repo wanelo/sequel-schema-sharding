@@ -93,6 +93,9 @@ to load table information from the database when the environment loads.
 This is particularly important for typecasting, so empty strings can be
 typecast to null, etc.
 
+The tricky bit is that `sequel-schema-sharding` connects to the first
+available shard for a table in order to read the database schema.
+
 ```ruby
 require 'config/sharding'
 
