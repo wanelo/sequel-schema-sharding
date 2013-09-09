@@ -14,7 +14,8 @@ module Sequel
         @connections[name.to_s] ||= Sequel.postgres(:user => config['username'],
                                                     :password => config['password'],
                                                     :host => config['host'],
-                                                    :database => config['database'])
+                                                    :database => config['database'],
+                                                    :port => config['port'])
       end
 
       def disconnect
