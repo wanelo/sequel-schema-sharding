@@ -38,6 +38,7 @@ conventions:
       schema_name: "schema_%e_%s"
       logical_shards:
         <1..n>: <shard_name>
+        <n+1..m>: <shard_name>
   physical_shards:
     <shard_name>:
       host: <hostname>
@@ -47,6 +48,9 @@ conventions:
     password: <pg_password>
     port: <pg_port>
 ```
+
+In schema names, `%e` is replaced with the current environment, and `%s` is
+replaced by the shard number.
 
 Tables can coexist in schemas, though they do not have to.
 
