@@ -19,6 +19,7 @@ module Sequel
       klass = Sequel::Model(Sequel::SchemaSharding.connection_manager.default_dataset_for(source))
 
       klass.include(SchemaSharding::ShardedModel)
+      klass.send(:simple_table=, false)
 
       klass
     end
@@ -85,7 +86,6 @@ module Sequel
       def _insert_dataset
         this_server
       end
-
     end
   end
 end

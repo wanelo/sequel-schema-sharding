@@ -16,6 +16,12 @@ describe Sequel::SchemaSharding, 'Model' do
         'artists'
       end
     end
+
+    klass.class_eval do
+      def this
+        @this ||= model.by_id(artist_id).limit(1)
+      end
+    end
     klass
   end
 
@@ -26,6 +32,9 @@ describe Sequel::SchemaSharding, 'Model' do
       read_back_artist = model.by_id(14).first
       expect(read_back_artist).to be_a(model)
       expect(read_back_artist.name).to eql('Paul')
+      read_back_artist.destroy
+      read_back_artist = model.by_id(14).first
+      expect(read_back_artist).to be_nil
     end
   end
 
@@ -34,6 +43,7 @@ describe Sequel::SchemaSharding, 'Model' do
       artist = model.create(artist_id: 234, name: 'Paul')
       expect(artist).to be_a(model)
       expect(artist.name).to eql('Paul')
+      artist.destroy
     end
   end
 

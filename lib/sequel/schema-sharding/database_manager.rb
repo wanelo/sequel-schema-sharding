@@ -57,7 +57,7 @@ module Sequel
           config.logical_shard_configs(table_name).each_pair do |shard_number, physical_shard|
             schema_name = connection_manager.schema_for(table_name, env, shard_number)
             Sequel::SchemaSharding.logger.info "Creating schema #{schema_name} on #{physical_shard}.."
-            connection = connection_manager[physical_shard]
+            connection = connection_manager.master(physical_shard)
 
             begin
               connection.run("CREATE SCHEMA #{schema_name}")
