@@ -12,7 +12,8 @@ module Sequel
             # Need to create connection manually with specifying a database in order to create the database
             connection = Sequel.postgres(:user => config['username'],
               :password => config['password'],
-              :host => config['host'])
+              :host => config['host'],
+              :port => (config['port'] || 5432))
 
             Sequel::SchemaSharding.logger.info "Creating #{config['database']}.."
 
@@ -36,7 +37,8 @@ module Sequel
           begin
             connection = Sequel.postgres(:user => config['username'],
               :password => config['password'],
-              :host => config['host'])
+              :host => config['host'],
+              :port => (config['port'] || 5432))
 
             Sequel::SchemaSharding.logger.info "Dropping #{config['database']}.."
             connection.run("DROP DATABASE #{config['database']}")
