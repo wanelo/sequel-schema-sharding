@@ -44,7 +44,8 @@ module Sequel
           :host => config['host'],
           :database => config['database'],
           :port => config['port'],
-          :single_threaded => true
+          :single_threaded => true,
+          :loggers => [Sequel::SchemaSharding.logger]
         }
       end
 
