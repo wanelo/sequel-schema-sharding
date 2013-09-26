@@ -27,7 +27,7 @@ RSpec.configure do |config|
     Sequel::SchemaSharding.migration_path = "spec/fixtures/db/migrate"
   end
 
-  config.around :each do |ex|
+  config.around :each, type: :transactional do |ex|
     #Sequel::SchemaSharding.config = Sequel::SchemaSharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml')
 
     # Start transactions in each connection to the physical shards

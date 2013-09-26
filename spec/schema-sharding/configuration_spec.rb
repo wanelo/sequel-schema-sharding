@@ -34,6 +34,7 @@ describe Sequel::SchemaSharding::Configuration do
         expect(value['username']).to eq('postgres')
         expect(value['password']).to eq('boomboomkaboom')
         expect(value['port']).to eq(5432)
+        expect(value['replicas']).to eq(['127.0.0.1']) if key == 'shard2'
 
         i += 1
       end
