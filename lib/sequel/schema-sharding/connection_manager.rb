@@ -45,7 +45,7 @@ module Sequel
           :database => config['database'],
           :port => config['port'],
           :single_threaded => true,
-          :loggers => [Sequel::SchemaSharding.logger]
+          :loggers => [Sequel::SchemaSharding::LoggerProxy.new]
         }
       end
 

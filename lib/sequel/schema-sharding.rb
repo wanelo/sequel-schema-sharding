@@ -7,6 +7,7 @@ require 'sequel/schema-sharding/finder'
 require 'sequel/schema-sharding/sequel_ext'
 require 'sequel/schema-sharding/model'
 require 'logger'
+require 'sequel/schema-sharding/logger_proxy'
 
 module Sequel
   module SchemaSharding
@@ -19,7 +20,7 @@ module Sequel
     end
 
     def self.logger
-      @logger ||= Logger.new($stdout)
+      @logger ||= Logger.new(StringIO.new)
     end
 
     def self.logger=(logger)
