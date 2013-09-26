@@ -144,6 +144,14 @@ Never try to insert records with nil values in sharded columns.
 
 TODO: explain why we define `this`
 
+## Running tests
+
+```bash
+> bundle install
+> bundle exec rake sequel:db:create
+> bundle exec rspec
+```
+
 ## FAQ
 
 ### How should I shard my databases?
