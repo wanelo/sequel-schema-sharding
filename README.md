@@ -142,7 +142,12 @@ the correct database connection and shard name is used. Writes will
 automatically choose the correct shard based on the sharded column.
 Never try to insert records with nil values in sharded columns.
 
-TODO: explain why we define `this`
+### this
+
+You must define a `:this` instance method on your model. `:this` must
+return a dataset that is scoped to the current instance in the database,
+so that Sequel can update/delete/etc the record when you call methods on
+the instance that persist, ie `:destroy`, `:save`.
 
 ## Running tests
 
