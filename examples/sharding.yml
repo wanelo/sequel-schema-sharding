@@ -1,12 +1,12 @@
 test:
   tables:
     artists:
-      schema_name: artists_%e_%s
+      schema_name: artists_%04d
       logical_shards:
         1..2: shard1
         3..4: shard2
     albums:
-      schema_name: albums_%e_%s
+      schema_name: albums_%04d
       logical_shards:
         1..2: shard2
         3..4: shard3
@@ -27,12 +27,12 @@ test:
 development:
   tables:
     artists:
-      schema_name: artists_%e_%s
+      schema_name: artists_%04d
       logical_shards:
         1..2: shard1
         3..4: shard2
     albums:
-      schema_name: albums_%e_%s
+      schema_name: albums_%04d
       logical_shards:
         1..2: shard2
         3..4: shard3

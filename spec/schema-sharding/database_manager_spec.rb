@@ -85,20 +85,20 @@ describe Sequel::SchemaSharding::DatabaseManager, type: :manager, sharded: true 
 
     describe '#create_shards' do
       it 'creates the database structure' do
-        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_boom_1')).to be_false
-        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_boom_1')).to be_false
+        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_01')).to be_false
+        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_01')).to be_false
         @manager.create_shards
-        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_boom_1')).to be_true
-        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_boom_1')).to be_true
+        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_01')).to be_true
+        expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_01')).to be_true
       end
 
       context 'shards already exist' do
         it 'prints that shards already exist' do
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_boom_1')).to be_false
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_boom_1')).to be_false
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_01')).to be_false
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_01')).to be_false
           @manager.create_shards
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_boom_1')).to be_true
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_boom_1')).to be_true
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_01')).to be_true
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_01')).to be_true
 
           $stderr.expects(:puts).with(regexp_matches(/already exists/)).at_least_once
           @manager.create_shards
@@ -109,14 +109,14 @@ describe Sequel::SchemaSharding::DatabaseManager, type: :manager, sharded: true 
     describe '#drop_schemas' do
       context 'schemas exist' do
         it 'drops the schemas' do
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_boom_1')).to be_false
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_boom_1')).to be_false
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_01')).to be_false
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_01')).to be_false
           @manager.create_shards
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_boom_1')).to be_true
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_boom_1')).to be_true
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_01')).to be_true
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_01')).to be_true
           @manager.drop_shards
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_boom_1')).to be_false
-          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_boom_1')).to be_false
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_boof_01')).to be_false
+          expect(DatabaseHelper.schema_exists?('shard1', 'sequel_explosions_artists_01')).to be_false
         end
       end
     end

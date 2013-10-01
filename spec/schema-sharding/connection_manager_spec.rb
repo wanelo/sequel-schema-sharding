@@ -35,7 +35,7 @@ describe Sequel::SchemaSharding::ConnectionManager do
 
   describe "#schema_for" do
     it "returns the schema name based on env and shard number" do
-      subject.schema_for('boof', 'pickles', 3).should eq 'sequel_logical_boof_pickles_3'
+      subject.schema_for('boof', 3).should eq 'sequel_logical_boof_03'
     end
   end
 
@@ -45,7 +45,7 @@ describe Sequel::SchemaSharding::ConnectionManager do
       #      This should be deconstructed to allow for injection of a mock config for testing.
       dataset = subject.default_dataset_for("artists")
       expect(dataset).to be_a(Sequel::Dataset)
-      expect(dataset.first_source_table).to eql(:'sequel_logical_artists_test_1__artists')
+      expect(dataset.first_source_table).to eql(:'sequel_logical_artists_01__artists')
     end
   end
 end

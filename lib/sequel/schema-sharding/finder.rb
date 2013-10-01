@@ -19,7 +19,7 @@ module Sequel
         physical_shard = config.logical_shard_configs(table_name)[shard_number]
 
         conn = Sequel::SchemaSharding.connection_manager[physical_shard]
-        schema = Sequel::SchemaSharding.connection_manager.schema_for(table_name, config.env, shard_number)
+        schema = Sequel::SchemaSharding.connection_manager.schema_for(table_name, shard_number)
 
         Result.new(conn, schema)
       end

@@ -25,14 +25,16 @@ module Sequel
         @connections = {}
       end
 
-      def schema_for(table_name, environment, shard_number)
-        config.schema_name(table_name).gsub('%e', environment).gsub('%s', shard_number.to_s)
+      def schema_for(table_name, shard_number)
+        number_of_shards = config.number_of_shards(table_name)
+        pattern = config.schema_name(table_name)
+        sprintf pattern, shard_number
       end
 
       def default_dataset_for(table_name)
         shard_number = config.logical_shard_configs(table_name).keys.first
         shard_name = config.logical_shard_configs(table_name)[shard_number]
-        self[shard_name][:"#{schema_for(table_name, ENV['RACK_ENV'], shard_number)}__#{table_name}"]
+        self[shard_name][:"#{schema_for(table_name, shard_number)}__#{table_name}"]
       end
 
       private

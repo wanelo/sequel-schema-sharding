@@ -19,6 +19,15 @@ describe Sequel::SchemaSharding::Configuration do
         end
       end
     end
+
+    context 'when the number of shards not the same' do
+      it 'raises an exception' do
+        config.stubs(:number_of_shards).returns(1)
+        expect {
+          config.logical_shard_configs('boof')
+        }.to raise_error(RuntimeError)
+      end
+    end
   end
 
   describe '#physical_shard_configs' do

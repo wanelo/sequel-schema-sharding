@@ -57,7 +57,7 @@ module Sequel
       def create_shards
         config.table_names.each do |table_name|
           config.logical_shard_configs(table_name).each_pair do |shard_number, physical_shard|
-            schema_name = connection_manager.schema_for(table_name, env, shard_number)
+            schema_name = connection_manager.schema_for(table_name, shard_number)
             Sequel::SchemaSharding.logger.info "Creating schema #{schema_name} on #{physical_shard}.."
             connection = connection_manager.master(physical_shard)
 
@@ -81,7 +81,7 @@ module Sequel
       def drop_shards
         config.table_names.each do |table_name|
           config.logical_shard_configs(table_name).each_pair do |shard_number, physical_shard|
-            schema_name = connection_manager.schema_for(table_name, env, shard_number)
+            schema_name = connection_manager.schema_for(table_name, shard_number)
             Sequel::SchemaSharding.logger.info "Dropping schema #{schema_name} on #{physical_shard}.."
             connection = connection_manager[physical_shard]
             connection.run("DROP SCHEMA #{schema_name} CASCADE")

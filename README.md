@@ -35,10 +35,10 @@ conventions:
 <env>:
   tables:
     <table_name>:
-      schema_name: "schema_%e_%s"
+      schema_name: "schema_%04d"
       logical_shards:
-        <1..n>: <shard_name>
-        <n+1..m>: <shard_name>
+        <shard_name>: <1..n>
+        <shard_name>:<n+1..m>
   physical_shards:
     <shard_name>:
       host: <hostname>
@@ -49,8 +49,9 @@ conventions:
     port: <pg_port>
 ```
 
-In schema names, `%e` is replaced with the current environment, and `%s` is
-replaced by the shard number.
+In schema names `%04d` is a ```sprintf``` pattern (http://www.ruby-doc.org/core-2.0.0/Kernel.html#method-i-sprintf), where
+%d is expanded by passing the shard number. Using the pattern you can zero-pad the shard number, or use another
+pattern that suites your environment.
 
 Tables can coexist in schemas, though they do not have to.
 

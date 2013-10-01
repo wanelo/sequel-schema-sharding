@@ -21,15 +21,12 @@ module Sequel
         table_name = table_name.to_s
         @logical_shard_table_configs ||= {}
         @logical_shard_table_configs[table_name] ||= begin
-          table_configs = config['tables'][table_name]
-          raise "Unknown table #{table_name} in configuration" if table_configs.nil?
-          table_configs['logical_shards'].inject({}) do |hash, value|
-            eval(value[0]).each do |i|
-              hash[i] = value[1]
-            end
-            hash
-          end
+          config, number_of_shards = parse_logical_shard_config_for(table_name),
+                                     number_of_shards(table_name)
+          raise "Shard number mismatch: expected #{number_of_shards} got #{config.size} for table #{table_name}" if config.size != number_of_shards
+          config
         end
+
       end
 
       def table_names
@@ -40,7 +37,22 @@ module Sequel
         config['tables'][table_name.to_s]['schema_name']
       end
 
+      def number_of_shards(table_name)
+        config['tables'][table_name.to_s]['number_of_shards']
+      end
+
       private
+
+      def parse_logical_shard_config_for(table_name)
+        table_configs = config['tables'][table_name]
+        raise "Unknown table #{table_name} in configuration" if table_configs.nil?
+        table_configs['logical_shards'].inject({}) do |hash, value|
+          eval(value[1]).each do |i|
+            hash[i] = value[0]
+          end
+          hash
+        end
+      end
 
       def config
         yaml[env.to_s]
