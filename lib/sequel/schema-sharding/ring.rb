@@ -3,6 +3,11 @@ require 'zlib'
 
 module Sequel
   module SchemaSharding
+    # This class is responsible for mapping IDs into shards, using
+    # Ketama consistent hashing algorithm, which makes it easier to
+    # rehash in the future, should the number of shards increase.
+    # For more information see http://en.wikipedia.org/wiki/Consistent_hashing
+    # This implementation is borrowed from Dali memcached library.
     class Ring
       POINTS_PER_SERVER = 1
 
