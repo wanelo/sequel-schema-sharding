@@ -2,24 +2,38 @@ require 'spec_helper'
 require 'sequel/schema-sharding'
 
 describe Sequel::SchemaSharding::Ring do
-
-  describe 'a ring of servers' do
-    it 'have the continuum sorted by value' do
-      shards = [1, 2, 3, 4, 5, 6, 7, 8]
+  describe '#shard_for_id' do
+    it 'returns a server for a given id' do
+      @shards = 16
+      shards = (1..@shards).to_a
       ring = Sequel::SchemaSharding::Ring.new(shards)
-      previous_value = 0
-      ring.continuum.each do |entry|
-        expect(entry.value).to be > previous_value
-        previous_value = entry.value
+
+      hash = {}
+      (1..10_000).to_a.each do |i|
+        shard = ring.shard_for_id(i)
+        hash[shard] ||= 0;
+        hash[shard] += 1;
+      end
+
+      expect(hash.size).to eq(@shards)
+      hash.values.each do |value|
+        expect(value).to eq(10_000 / @shards)
       end
     end
   end
 
-  describe '#shard_for_id' do
-    it 'returns a server for a given id' do
-      shards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-      ring = Sequel::SchemaSharding::Ring.new(shards)
-      expect(ring.shard_for_id(3489409)).to eq(4)
+  describe "#initialize" do
+    context "production" do
+      it "raises an exception if the number of shards is not 8192" do
+        env = ENV['RACK_ENV']
+        ENV['RACK_ENV'] = 'production'
+
+        expect do
+          Sequel::SchemaSharding::Ring.new((1..10).to_a)
+        end.to raise_error(RuntimeError)
+
+        ENV['RACK_ENV'] = env
+      end
     end
   end
 end
