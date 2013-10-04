@@ -23,6 +23,7 @@ module Sequel
       end
 
       def shard_for_id(id)
+        id = id.to_i
         raise "id is passed as zero" if id == 0
         id % @number_of_shards + 1
       end
