@@ -20,7 +20,7 @@ module Sequel
     end
 
     def self.logger
-      @logger ||= Logger.new(StringIO.new)
+      @logger ||= Logger.new(nil)
     end
 
     def self.logger=(logger)
