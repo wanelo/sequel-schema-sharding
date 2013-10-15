@@ -91,6 +91,44 @@ See Sequel documentation for more info:
 
 TODO: rake tasks for running migrations
 
+### Read/write splitting
+
+Sequel supports read/write splitting, but sequel-schema-sharding needs a
+few modifications in order to work with horizontal sharding. In order to
+use read/write splitting across shards, the following configuration can
+be used in your `sharding.yml`:
+
+```yml
+<env>:
+  tables:
+    <table_name>:
+      schema_name: "schema_%04d"
+      logical_shards:
+        <shard_name>: <1..n>
+        <shard_name>:<n+1..m>
+  physical_shards:
+    <shard_name>:
+      host: <hostname>
+      database: <database>
+      replicas:
+        <replica_name>:
+          host: <hostname>
+          database: <database>
+          ...
+  common:
+    username: <pg_username>
+    password: <pg_password>
+    port: <pg_port>
+```
+
+Replica configuration is merged into common attributes, so are redundant
+if they are not different from the master. Replica attributes take priority,
+however, so if you use a proxy such as PGBouncer, you can specify a different
+local database name.
+
+See http://sequel.rubyforge.org/rdoc/files/doc/sharding_rdoc.html for more
+information.
+
 ### Models
 
 Models declare their table in the class definition. This allows Sequel
