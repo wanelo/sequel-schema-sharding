@@ -55,7 +55,7 @@ module Sequel
         return {} if config['replicas'].nil?
         {
           :servers => {
-            :read_only => ->(db) { {:host => config['replicas'].sample} }
+            :read_only => ->(db) { config['replicas'].sample }
           }
         }
       end

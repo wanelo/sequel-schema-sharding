@@ -12,7 +12,15 @@ module Sequel
 
       def physical_shard_configs
         @physical_shard_configs ||= config['physical_shards'].inject({}) do |hash, value|
-          hash[value[0]] = config['common'].merge(value[1])
+          shard_config = config['common'].merge(value[1])
+
+          if shard_config['replicas']
+            shard_config['replicas'] = shard_config['replicas'].map do |name, replica|
+              config['common'].merge(replica)
+            end
+          end
+
+          hash[value[0]] = shard_config
           hash
         end
       end

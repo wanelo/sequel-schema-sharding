@@ -20,7 +20,9 @@ test:
       host: 127.0.0.1
       database: sequel_test_shard2
       replicas:
-        - 127.0.0.1
+        replica_1:
+          host: 127.0.0.1
+          database: sequel_test_shard2
   common:
     username: postgres
     password: boomboomkaboom
@@ -46,7 +48,9 @@ boom:
       host: 127.0.0.1
       database: sequel_boom_shard2
       replicas:
-        - 127.0.0.1
+        replica_1:
+          host: 127.0.0.1
+          database: sequel_boom_shard2
   common:
     username: postgres
     password: boomboomkaboom
