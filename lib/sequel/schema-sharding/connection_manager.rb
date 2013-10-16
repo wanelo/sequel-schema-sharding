@@ -2,6 +2,9 @@ require 'singleton'
 
 module Sequel
   module SchemaSharding
+    ##
+    # Used to manage database connections separately from database shards
+
     class ConnectionManager
       attr_reader :connections
 
@@ -14,6 +17,10 @@ module Sequel
         @connections[name.to_s] ||= Sequel.postgres(master_config_for(config).merge!(replica_hash_for(config)))
       end
 
+      ##
+      # Used by rake tasks that need to deterministically work against a master
+      # database even when read/write splitting is configured.
+
       def master(name)
         @connections["master_#{name}"] ||= Sequel.postgres(master_config_for(db_config_for(name)))
       end
@@ -25,11 +32,23 @@ module Sequel
         @connections = {}
       end
 
+      ##
+      # Given +table_name+ and +shard_number+, returns the name of the
+      # PostgreSQL schema based on a +schema_name+ pattern defined in sharding.yml.
+      # +shard_number+ is interpolated into +schema_name+ via sprintf, so
+      # +schema_name+ should include a format specifier with which to interpolate
+      # it (ex. %s, %02d).
+
       def schema_for(table_name, shard_number)
         number_of_shards = config.number_of_shards(table_name)
         pattern = config.schema_name(table_name)
         sprintf pattern, shard_number
       end
+
+      ##
+      # Given +table_name+, return a functional dataset. This is used when models
+      # are loaded to read table columns and allow for data typecasting.
+      # In most cases it should not be used directly in application code.
 
       def default_dataset_for(table_name)
         shard_number = config.logical_shard_configs(table_name).keys.first
