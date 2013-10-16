@@ -24,12 +24,12 @@ describe Sequel::SchemaSharding::ConnectionManager do
         expect(subject['shard1'].servers).to_not include(:read_only)
       end
 
-      #it 'executes a select against a replica' do
-      #  shard = subject['shard2']
-      #  Sequel::ShardedThreadedConnectionPool.any_instance.expects(:hold).with(:read_only).at_least_once
-      #  Sequel::ShardedThreadedConnectionPool.any_instance.expects(:hold).with(:default).at_least_once
-      #  shard[:"sequel_explosions_boof_pickles_3__artists"].first
-      #end
+      it 'executes a select against a replica' do
+        shard = subject['shard2']
+        ds = shard[:"sequel_explosions_boof_pickles_3__artists"]
+        shard.expects(:execute).once.with(anything, server: :read_only)
+        ds.first
+      end
     end
   end
 

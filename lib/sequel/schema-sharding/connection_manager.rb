@@ -14,7 +14,7 @@ module Sequel
 
       def [](name)
         config = db_config_for(name)
-        @connections[name.to_s] ||= Sequel.postgres(master_config_for(config).merge!(replica_hash_for(config)))
+        @connections[name.to_s] ||= Sequel.postgres(sequel_connection_config_for(config).merge!(replica_hash_for(config)))
       end
 
       ##
@@ -22,7 +22,7 @@ module Sequel
       # database even when read/write splitting is configured.
 
       def master(name)
-        @connections["master_#{name}"] ||= Sequel.postgres(master_config_for(db_config_for(name)))
+        @connections["master_#{name}"] ||= Sequel.postgres(sequel_connection_config_for(db_config_for(name)))
       end
 
       def disconnect
@@ -58,7 +58,7 @@ module Sequel
 
       private
 
-      def master_config_for(config)
+      def sequel_connection_config_for(config)
         {
           :user => config['username'],
           :password => config['password'],
@@ -74,7 +74,7 @@ module Sequel
         return {} if config['replicas'].nil?
         {
           :servers => {
-            :read_only => ->(db) { config['replicas'].sample }
+            :read_only => ->(db) { sequel_connection_config_for(config['replicas'].sample) }
           }
         }
       end
