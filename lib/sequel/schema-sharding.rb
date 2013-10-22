@@ -1,12 +1,13 @@
+require 'logger'
+require 'sequel'
 require 'sequel/schema-sharding/version'
 require 'sequel/schema-sharding/configuration'
 require 'sequel/schema-sharding/connection_manager'
 require 'sequel/schema-sharding/database_manager'
 require 'sequel/schema-sharding/ring'
 require 'sequel/schema-sharding/finder'
-require 'sequel/schema-sharding/sequel_ext'
+require 'sequel/schema-sharding/monkey_patching'
 require 'sequel/schema-sharding/model'
-require 'logger'
 require 'sequel/schema-sharding/logger_proxy'
 
 module Sequel

@@ -121,4 +121,37 @@ describe Sequel::SchemaSharding::DatabaseManager, type: :manager, sharded: true 
       end
     end
   end
+
+  describe 'schema migrations' do
+    before(:each) do
+      @manager.create_databases
+      @manager.create_shards
+    end
+
+    before do
+      Sequel::SchemaSharding.migration_path = "spec/fixtures/db/other_migrate"
+    end
+
+    after do
+      Sequel::SchemaSharding.migration_path = "spec/fixtures/db/migrate"
+    end
+
+    describe '#migrate' do
+      it 'runs migrations against the table on all schemas' do
+        expect(DatabaseHelper.index_count('shard1', 'sequel_explosions_artists_01', 'artists', 'name')).to eq(0)
+        @manager.migrate('artists', allow_missing_migration_files: true, use_transactions: false, current: 1)
+        expect(DatabaseHelper.index_count('shard1', 'sequel_explosions_artists_01', 'artists', 'name')).to eq(1)
+      end
+    end
+
+    describe '#rollback' do
+      it 'runs migrations against the table on all schemas' do
+        expect(DatabaseHelper.index_count('shard1', 'sequel_explosions_artists_01', 'artists', 'name')).to eq(0)
+        @manager.migrate('artists', allow_missing_migration_files: true, use_transactions: false, current: 1)
+        expect(DatabaseHelper.index_count('shard1', 'sequel_explosions_artists_01', 'artists', 'name')).to eq(1)
+        @manager.rollback('artists', allow_missing_migration_files: true, use_transactions: false, current: 1)
+        expect(DatabaseHelper.index_count('shard1', 'sequel_explosions_artists_01', 'artists', 'name')).to eq(0)
+      end
+    end
+  end
 end

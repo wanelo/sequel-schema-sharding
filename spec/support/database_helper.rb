@@ -29,6 +29,12 @@ class DatabaseHelper
     schemas(database).include?(schema)
   end
 
+  def self.index_count(database, schema, table, column)
+    Sequel::SchemaSharding.connection_manager[database]
+                          .fetch("select * from pg_catalog.pg_indexes where tablename = '#{table}' and schemaname = '#{schema}' and indexdef LIKE '%#{column}%'")
+                          .count
+  end
+
   def self.schemas(database)
     Sequel::SchemaSharding.connection_manager[database].fetch('select nspname from pg_catalog.pg_namespace;').all.map { |d| d[:nspname] }
   end
