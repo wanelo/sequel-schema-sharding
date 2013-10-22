@@ -90,6 +90,12 @@ module Sequel
         end
       end
 
+      def migrate_all(options)
+        config.table_names.each do |table_name|
+          migrate(table_name, options)
+        end
+      end
+
       def rollback(table_name, migration_options = {})
         SchemaIterator.new.iterate_on(table_name) do |conn, schema_name, table_name|
           Sequel::SchemaSharding.logger.warn "Rolling back #{table_name} in schema #{schema_name}.."
@@ -98,6 +104,12 @@ module Sequel
           migrator.instance_variable_set(:@target, migrator.current - 1)
           migrator.instance_variable_set(:@direction, :down)
           migrator.run
+        end
+      end
+
+      def rollback_all(options)
+        config.table_names.each do |table_name|
+          rollback(table_name, options)
         end
       end
 
