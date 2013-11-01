@@ -1,4 +1,5 @@
 require 'singleton'
+require 'sequel-replica-failover'
 
 module Sequel
   module SchemaSharding
@@ -66,7 +67,10 @@ module Sequel
           :database => config['database'],
           :port => config['port'],
           :single_threaded => true,
-          :loggers => [Sequel::SchemaSharding::LoggerProxy.new]
+          :loggers => [Sequel::SchemaSharding::LoggerProxy.new],
+          :pool_class => Sequel::ShardedSingleFailoverConnectionPool,
+          :pool_retry_count => 10,
+          :pool_stick_timeout => 30
         }
       end
 
