@@ -76,9 +76,17 @@ module Sequel
 
       def replica_hash_for(config)
         return {} if config['replicas'].nil?
+        i = rand(config['replicas'].size - 1)
         {
           :servers => {
-            :read_only => ->(db) { sequel_connection_config_for(config['replicas'].sample) }
+            :read_only => ->(db) do
+              sequel_connection_config_for(config['replicas'][i]).tap do
+                i += 1
+                if i >= config['replicas'].size
+                  i = 0
+                end
+              end
+            end
           }
         }
       end
