@@ -56,6 +56,10 @@ module Sequel
           ds
         end
 
+        def read_only_shard_for(id)
+          shard_for(id).server(:read_only)
+        end
+
         # The result of a lookup for the given id. See Sequel::SchemaSharding::Finder::Result
         def result_for(id)
           Sequel::SchemaSharding::Finder.instance.lookup(self.implicit_table_name, id)

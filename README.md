@@ -188,6 +188,15 @@ return a dataset that is scoped to the current instance in the database,
 so that Sequel can update/delete/etc the record when you call methods on
 the instance that persist, ie `:destroy`, `:save`.
 
+## Read/write splitting
+
+When using this in conjunction with multiple replicas, you should call `read_only_shard_for`
+instead of `shard_for` when running a select query. This will ensure that anything that needs
+a valid connection while the query is being built will go to a `:read_only` server.
+
+This can be helpful when combined with server failover logic, to ensure that read
+queries do not try to reconnect to a downed master.
+
 ## Running tests
 
 ```bash

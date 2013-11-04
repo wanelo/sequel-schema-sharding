@@ -47,4 +47,34 @@ describe Sequel::SchemaSharding, 'Model' do
     end
   end
 
+  describe '#shard_for' do
+    let(:dataset) { model.shard_for(2356) }
+
+    it 'returns a dataset' do
+      expect(dataset).to be_a(Sequel::Dataset)
+    end
+
+    it 'connects to the shard for the given id' do
+      expect(dataset.db.opts[:database]).to eq('sequel_test_shard2')
+      expect(dataset.first_source).to eq(:sequel_logical_artists_17__artists)
+    end
+  end
+
+  describe '#read_only_shard_for' do
+    let(:dataset) { model.read_only_shard_for(2356) }
+
+    it 'returns a dataset' do
+      expect(dataset).to be_a(Sequel::Dataset)
+    end
+
+    it 'connects to the shard for the given id' do
+      expect(dataset.db.opts[:database]).to eq('sequel_test_shard2')
+      expect(dataset.first_source).to eq(:sequel_logical_artists_17__artists)
+    end
+
+    it 'is read_only' do
+      expect(dataset.opts[:server]).to eq(:read_only)
+    end
+  end
+
 end
