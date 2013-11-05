@@ -57,6 +57,7 @@ module Sequel
         end
 
         def read_only_shard_for(id)
+          Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.fire(id.to_s) if Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.enabled?
           shard_for(id).server(:read_only)
         end
 

@@ -1,6 +1,7 @@
 require 'logger'
 require 'sequel'
 require 'sequel/schema-sharding/version'
+require 'sequel/schema-sharding/dtrace_provider'
 require 'sequel/schema-sharding/configuration'
 require 'sequel/schema-sharding/connection_manager'
 require 'sequel/schema-sharding/database_manager'
