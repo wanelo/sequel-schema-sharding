@@ -24,6 +24,8 @@ module Sequel
       def self.provider
         @provider ||= new.tap do |p|
           p.read_only_shard_for
+          p.replica_hash_for
+          p.shard_for
           p.provider.enable
         end
       end
