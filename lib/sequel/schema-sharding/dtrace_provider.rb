@@ -13,6 +13,14 @@ module Sequel
         @read_only_probe ||= provider.probe(:model, :read_only_shard_for, :string)
       end
 
+      def replica_hash_for
+        @replica_hash_for ||= provider.probe(:connection_manager, :replica_hash_for, :integer, :integer)
+      end
+
+      def shard_for
+        @shard_for_probe ||= provider.probe(:model, :shard_for, :string)
+      end
+
       def self.provider
         @provider ||= new.tap do |p|
           p.read_only_shard_for

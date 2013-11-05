@@ -11,6 +11,24 @@ describe Sequel::SchemaSharding::DTraceProvider do
   describe 'probes' do
     let(:provider) { Sequel::SchemaSharding::DTraceProvider.new }
 
+    describe '#replica_hash_for' do
+      it 'is a probe' do
+        expect(provider.replica_hash_for).to be_a USDT::Probe
+      end
+
+      it 'has :model for its function' do
+        expect(provider.replica_hash_for.function).to eq(:connection_manager)
+      end
+
+      it 'has :read_only_shard_for for its name' do
+        expect(provider.replica_hash_for.name).to eq(:replica_hash_for)
+      end
+
+      it 'takes a string argument' do
+        expect(provider.replica_hash_for.arguments).to eq([:integer, :integer])
+      end
+    end
+
     describe '#read_only_shard_for' do
       it 'is a probe' do
         expect(provider.read_only_shard_for).to be_a USDT::Probe
@@ -22,6 +40,24 @@ describe Sequel::SchemaSharding::DTraceProvider do
 
       it 'has :read_only_shard_for for its name' do
         expect(provider.read_only_shard_for.name).to eq(:read_only_shard_for)
+      end
+
+      it 'takes a string argument' do
+        expect(provider.read_only_shard_for.arguments).to eq([:string])
+      end
+    end
+
+    describe '#shard_for' do
+      it 'is a probe' do
+        expect(provider.shard_for).to be_a USDT::Probe
+      end
+
+      it 'has :model for its function' do
+        expect(provider.shard_for.function).to eq(:model)
+      end
+
+      it 'has :read_only_shard_for for its name' do
+        expect(provider.shard_for.name).to eq(:shard_for)
       end
 
       it 'takes a string argument' do

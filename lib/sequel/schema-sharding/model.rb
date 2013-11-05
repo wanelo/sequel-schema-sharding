@@ -48,6 +48,7 @@ module Sequel
         # Return a valid Sequel::Dataset that is tied to the shard table and connection for the id and will load values
         # run by the query into the model.
         def shard_for(id)
+          Sequel::SchemaSharding::DTraceProvider.provider.shard_for.fire(id.to_s) if Sequel::SchemaSharding::DTraceProvider.provider.shard_for.enabled?
           result = self.result_for(id)
           ds = result.connection[schema_and_table(result)]
           ds.row_proc = self
