@@ -77,16 +77,13 @@ module Sequel
       def replica_hash_for(config)
         return {} if config['replicas'].nil?
         size = config['replicas'].size
-        i = rand(size)
         {
           :servers => {
             :read_only => ->(db) do
-              choice = i % size
+              choice = rand(size)
               probe = Sequel::SchemaSharding::DTraceProvider.provider.replica_hash_for
               probe.fire(choice, size) if probe.enabled?
-              sequel_connection_config_for(config['replicas'][choice]).tap do
-                i += 1
-              end
+              sequel_connection_config_for(config['replicas'][choice])
             end
           }
         }
