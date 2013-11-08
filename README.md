@@ -2,6 +2,7 @@ sequel-schema-sharding
 ======================
 
 [![Build Status](https://travis-ci.org/wanelo/sequel-schema-sharding.png?branch=master)](https://travis-ci.org/wanelo/sequel-schema-sharding)
+[![Code Climate](https://codeclimate.com/github/wanelo/sequel-schema-sharding.png)](https://codeclimate.com/github/wanelo/sequel-schema-sharding)
 
 Horizontally shard PostgreSQL tables with the Sequel gem, where each shard
 lives in its own PostgreSQL schema.
