@@ -1,6 +1,7 @@
 sequel-schema-sharding
 ======================
 
+[![Gem Version](https://badge.fury.io/rb/sequel-schema-sharding.png)](http://badge.fury.io/rb/sequel-schema-sharding)
 [![Build Status](https://travis-ci.org/wanelo/sequel-schema-sharding.png?branch=master)](https://travis-ci.org/wanelo/sequel-schema-sharding)
 [![Code Climate](https://codeclimate.com/github/wanelo/sequel-schema-sharding.png)](https://codeclimate.com/github/wanelo/sequel-schema-sharding)
 
