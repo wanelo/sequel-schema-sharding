@@ -327,6 +327,18 @@ mapping, but any attempt to read a record inserted via the old mapping
 will pick the wrong shard and return an empty set. DON'T EVER DO THIS.
 It's really embarrassing.
 
+### Any problems with other services?
+
+When integrating with NewRelic, *do not* enable the SQL query plan
+instrumentation. It can grab a connection that your application is also
+trying to use... libpq is thread safe, so long as two threads do not
+try to manipulate the same PGonn object
+(http://www.postgresql.org/docs/9.3/static/libpq-threading.html).
+If you see errors such as `PG::UnableToSend: insufficient data in "T" message`
+or `PG::UnableToSend: extraneous data in "T" message`, this can indicate that
+multiple threads are accessing the same connection, and data (or random bytes)
+may have been transposed between queries.
+
 
 ## Contributing
 
