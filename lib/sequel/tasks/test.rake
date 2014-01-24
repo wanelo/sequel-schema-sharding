@@ -20,5 +20,14 @@ namespace :sequel do
       manager = Sequel::SchemaSharding::DatabaseManager.new
       manager.drop_databases
     end
+
+    namespace :test do
+      desc 'Reset test database'
+      task :reset do
+        ENV['RACK_ENV'] = 'test'
+        Rake::Task['sequel:db:drop'].invoke
+        Rake::Task['sequel:db:create'].invoke
+      end
+    end
   end
 end
