@@ -28,6 +28,7 @@ module Sequel
 
       def self.included(base)
         base.extend(ClassMethods)
+        base.plugin(:dataset_shard_id)
       end
 
       module ClassMethods
@@ -53,6 +54,7 @@ module Sequel
           ds = result.connection[schema_and_table(result)]
           ds.row_proc = self
           dataset_method_modules.each { |m| ds.instance_eval { extend(m) } }
+          ds.shard_number = result.shard_number
           ds.model = self
           ds
         end

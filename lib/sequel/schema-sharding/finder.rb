@@ -4,11 +4,12 @@ module Sequel
   module SchemaSharding
     class Finder
       class Result
-        attr_reader :connection, :schema
+        attr_reader :connection, :schema, :shard_number
 
-        def initialize(connection, schema)
+        def initialize(connection, schema, shard_number)
           @connection = connection
           @schema = schema
+          @shard_number = shard_number
         end
       end
 
@@ -21,7 +22,7 @@ module Sequel
         conn = Sequel::SchemaSharding.connection_manager[physical_shard]
         schema = Sequel::SchemaSharding.connection_manager.schema_for(table_name, shard_number)
 
-        Result.new(conn, schema)
+        Result.new(conn, schema, shard_number)
       end
 
       private

@@ -9,6 +9,7 @@ describe Sequel::SchemaSharding::Finder do
       result = Sequel::SchemaSharding::Finder.instance.lookup('boof', 60)
       expect(result.connection).to be_a(Sequel::Postgres::Database)
       expect(result.schema).to eq('sequel_logical_boof_01')
+      expect(result.shard_number).to eq(1)
     end
 
     xit 'is fast' do

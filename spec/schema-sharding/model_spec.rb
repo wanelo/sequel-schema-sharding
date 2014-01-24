@@ -25,8 +25,8 @@ describe Sequel::SchemaSharding, 'Model' do
     klass
   end
 
-  describe '#by_id' do
-    it 'returns a valid artist by id' do
+  describe 'reading from database' do
+    it 'can return a valid record' do
       artist = model.create(artist_id: 14, name: 'Paul')
       expect(artist.id).to_not be_nil
       read_back_artist = model.by_id(14).first
@@ -36,10 +36,18 @@ describe Sequel::SchemaSharding, 'Model' do
       read_back_artist = model.by_id(14).first
       expect(read_back_artist).to be_nil
     end
+
+    it 'includes shard number on model instances' do
+      shard_number = model.shard_for(456).shard_number
+
+      model.create(artist_id: 456, name: 'Randy')
+      record = model.by_id(456).first
+      expect(record.shard_number).to eq(shard_number)
+    end
   end
 
-  describe '#create' do
-    it 'creates a valid artist' do
+  describe 'writing to database' do
+    it 'can create a valid record' do
       artist = model.create(artist_id: 234, name: 'Paul')
       expect(artist).to be_a(model)
       expect(artist.name).to eql('Paul')
@@ -57,6 +65,10 @@ describe Sequel::SchemaSharding, 'Model' do
     it 'connects to the shard for the given id' do
       expect(dataset.db.opts[:database]).to eq('sequel_test_shard2')
       expect(dataset.first_source).to eq(:sequel_logical_artists_17__artists)
+    end
+
+    it 'includes shard_number on dataset' do
+      expect(dataset.shard_number).to eq(17)
     end
   end
 
