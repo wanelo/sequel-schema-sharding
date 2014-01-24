@@ -53,6 +53,11 @@ describe Sequel::SchemaSharding, 'Model' do
       expect(artist.name).to eql('Paul')
       artist.destroy
     end
+
+    it 'includes shard number on model instances' do
+      shard_number = model.shard_for(5432).shard_number
+      expect(model.create(artist_id: 5432, name: 'WOW').shard_number).to eq(shard_number)
+    end
   end
 
   describe '#shard_for' do

@@ -73,6 +73,14 @@ module Sequel
         def schema_and_table(result)
           :"#{result.schema}__#{self.implicit_table_name}"
         end
+
+        def create(values = {}, &block)
+          sharded_column_value = values[sharded_column]
+          shard_number = result_for(sharded_column_value).shard_number
+          super.tap do |m|
+            m.values[:shard_number] = shard_number
+          end
+        end
       end
 
       # The database connection that has the logical shard.
