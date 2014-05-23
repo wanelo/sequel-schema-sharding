@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sequel'
   spec.add_dependency 'pg'
   spec.add_dependency 'sequel-replica-failover'
-  spec.add_dependency 'ruby-usdt', '>= 0.2.1'
+  spec.add_dependency 'ruby-usdt', '>= 0.2.2'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rake'
