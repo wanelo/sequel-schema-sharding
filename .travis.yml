@@ -4,6 +4,7 @@ language: ruby
 rvm:
   - 1.9.3
   - 2.0.0-p247
+  - 2.1.2
 before_script: "bundle exec rake sequel:db:create"
 script: "bundle exec rspec"
 notifications:
