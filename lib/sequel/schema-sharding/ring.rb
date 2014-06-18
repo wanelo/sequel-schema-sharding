@@ -12,8 +12,6 @@ module Sequel
       POINTS_PER_SERVER = 1
       PRODUCTION_SHARDS = 8192
 
-      attr_accessor :shards, :continuum
-
       def initialize(shards)
         @number_of_shards = shards.size
         if ENV['RACK_ENV'] == "production"
