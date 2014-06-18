@@ -131,6 +131,13 @@ local database name.
 See http://sequel.rubyforge.org/rdoc/files/doc/sharding_rdoc.html for more
 information.
 
+Note that `sequel-schema-sharding` depends on the `sequel-replica-failover`
+gem. This means that when making queries to `:read_only` servers (i.e.
+replicas), certain connection errors will be rescued and re-run against
+another `:read_only` server. It may be advantageous to include each master
+database among its replicas, to ensure that read failures on a replica are
+re-run against the master.
+
 ### Models
 
 Models declare their table in the class definition. This allows Sequel
