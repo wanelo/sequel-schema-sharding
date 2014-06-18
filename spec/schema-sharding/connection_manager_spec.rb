@@ -35,7 +35,7 @@ describe Sequel::SchemaSharding::ConnectionManager do
 
   describe "#schema_for" do
     it "returns the schema name based on env and shard number" do
-      subject.schema_for('boof', 3).should eq 'sequel_logical_boof_03'
+      expect(subject.schema_for('boof', 3)).to eq 'sequel_logical_boof_03'
     end
   end
 
