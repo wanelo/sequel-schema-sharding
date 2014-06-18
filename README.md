@@ -207,6 +207,10 @@ queries do not try to reconnect to a downed master.
 > bundle exec rspec
 ```
 
+The default max file descriptor limit on Macs is tragically low. If tests
+fail with `too many open files`, you can run `ulimit -n 2048` to raise the
+limit.
+
 ## FAQ
 
 ### How should I shard my databases?
