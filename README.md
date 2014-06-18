@@ -203,7 +203,7 @@ queries do not try to reconnect to a downed master.
 
 ```bash
 > bundle install
-> bundle exec rake sequel:db:test:reset
+> bundle exec rake reset
 > bundle exec rspec
 ```
 
