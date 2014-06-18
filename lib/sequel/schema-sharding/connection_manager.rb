@@ -41,7 +41,6 @@ module Sequel
       # it (ex. %s, %02d).
 
       def schema_for(table_name, shard_number)
-        number_of_shards = config.number_of_shards(table_name)
         pattern = config.schema_name(table_name)
         sprintf pattern, shard_number
       end
