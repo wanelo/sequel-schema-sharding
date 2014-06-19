@@ -14,7 +14,7 @@ module Sequel
       end
 
       def replica_hash_for
-        @replica_hash_for ||= provider.probe(:connection_manager, :replica_hash_for, :integer, :integer)
+        @replica_hash_for ||= provider.probe(:connection_manager, :replica_hash_for, :string)
       end
 
       def shard_for

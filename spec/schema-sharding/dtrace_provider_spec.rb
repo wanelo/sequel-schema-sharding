@@ -25,7 +25,7 @@ describe Sequel::SchemaSharding::DTraceProvider do
       end
 
       it 'takes a string argument' do
-        expect(provider.replica_hash_for.arguments).to eq([:integer, :integer])
+        expect(provider.replica_hash_for.arguments).to eq([:string])
       end
     end
 

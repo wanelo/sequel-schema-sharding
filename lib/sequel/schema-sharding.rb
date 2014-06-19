@@ -10,6 +10,7 @@ require 'sequel/schema-sharding/finder'
 require 'sequel/schema-sharding/monkey_patching'
 require 'sequel/schema-sharding/model'
 require 'sequel/schema-sharding/logger_proxy'
+require 'sequel/schema-sharding/connection_strategies/random'
 
 module Sequel
   module SchemaSharding
@@ -19,6 +20,14 @@ module Sequel
 
     def self.config=(config)
       @config = config
+    end
+
+    def self.replica_strategy
+      @replica_strategy ||= Sequel::SchemaSharding::ConnectionStrategy::Random
+    end
+
+    def self.replica_strategy=(strategy)
+      @replica_strategy = strategy
     end
 
     def self.logger
