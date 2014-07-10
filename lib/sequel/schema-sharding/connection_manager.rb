@@ -51,7 +51,7 @@ module Sequel
       # In most cases it should not be used directly in application code.
 
       def default_dataset_for(table_name)
-        shard_number = config.logical_shard_configs(table_name).keys.first
+        shard_number = config.logical_shard_configs(table_name).keys.sample
         shard_name = config.logical_shard_configs(table_name)[shard_number]
         self[shard_name][:"#{schema_for(table_name, shard_number)}__#{table_name}"]
       end

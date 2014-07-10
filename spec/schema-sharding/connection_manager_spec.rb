@@ -45,7 +45,7 @@ describe Sequel::SchemaSharding::ConnectionManager do
       #      This should be deconstructed to allow for injection of a mock config for testing.
       dataset = subject.default_dataset_for("artists")
       expect(dataset).to be_a(Sequel::Dataset)
-      expect(dataset.first_source_table).to eql(:'sequel_logical_artists_01__artists')
+      expect(dataset.first_source_table).to match(/sequel_logical_artists_[0-9]{2}__artists/)
     end
   end
 end
