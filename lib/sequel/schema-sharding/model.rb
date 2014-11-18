@@ -49,19 +49,21 @@ module Sequel
         # Return a valid Sequel::Dataset that is tied to the shard table and connection for the id and will load values
         # run by the query into the model.
         def shard_for(id)
-          Sequel::SchemaSharding::DTraceProvider.provider.shard_for.fire(id.to_s) if Sequel::SchemaSharding::DTraceProvider.provider.shard_for.enabled?
           result = self.result_for(id)
           ds = result.connection[schema_and_table(result)]
           ds.row_proc = self
           dataset_method_modules.each { |m| ds.instance_eval { extend(m) } }
           ds.shard_number = result.shard_number
           ds.model = self
-          ds
+          ds.tap do |d|
+            Sequel::SchemaSharding::DTraceProvider.provider.shard_for.fire(id.to_s, d.shard_number) if Sequel::SchemaSharding::DTraceProvider.provider.shard_for.enabled?
+          end
         end
 
         def read_only_shard_for(id)
-          Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.fire(id.to_s) if Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.enabled?
-          shard_for(id).server(:read_only)
+          shard_for(id).server(:read_only).tap do |d|
+            Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.fire(id.to_s, d.shard_number) if Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.enabled?
+          end
         end
 
         # The result of a lookup for the given id. See Sequel::SchemaSharding::Finder::Result

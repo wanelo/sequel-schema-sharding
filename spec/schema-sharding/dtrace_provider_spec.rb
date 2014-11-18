@@ -43,7 +43,7 @@ describe Sequel::SchemaSharding::DTraceProvider do
       end
 
       it 'takes a string argument' do
-        expect(provider.read_only_shard_for.arguments).to eq([:string])
+        expect(provider.read_only_shard_for.arguments).to eq([:string, :integer])
       end
     end
 
@@ -61,7 +61,7 @@ describe Sequel::SchemaSharding::DTraceProvider do
       end
 
       it 'takes a string argument' do
-        expect(provider.read_only_shard_for.arguments).to eq([:string])
+        expect(provider.read_only_shard_for.arguments).to eq([:string, :integer])
       end
     end
   end

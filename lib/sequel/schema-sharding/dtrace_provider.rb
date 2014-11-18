@@ -10,7 +10,7 @@ module Sequel
       end
 
       def read_only_shard_for
-        @read_only_probe ||= provider.probe(:model, :read_only_shard_for, :string)
+        @read_only_probe ||= provider.probe(:model, :read_only_shard_for, :string, :integer)
       end
 
       def replica_hash_for
@@ -18,7 +18,7 @@ module Sequel
       end
 
       def shard_for
-        @shard_for_probe ||= provider.probe(:model, :shard_for, :string)
+        @shard_for_probe ||= provider.probe(:model, :shard_for, :string, :integer)
       end
 
       def self.provider
