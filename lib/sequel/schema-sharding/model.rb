@@ -56,13 +56,13 @@ module Sequel
           ds.shard_number = result.shard_number
           ds.model = self
           ds.tap do |d|
-            Sequel::SchemaSharding::DTraceProvider.provider.shard_for.fire(id.to_s, d.shard_number) if Sequel::SchemaSharding::DTraceProvider.provider.shard_for.enabled?
+            Sequel::SchemaSharding::DTraceProvider.provider.shard_for.fire(id.to_s, d.shard_number, self.table_name_s) if Sequel::SchemaSharding::DTraceProvider.provider.shard_for.enabled?
           end
         end
 
         def read_only_shard_for(id)
           shard_for(id).server(:read_only).tap do |d|
-            Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.fire(id.to_s, d.shard_number) if Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.enabled?
+            Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.fire(id.to_s, d.shard_number, self.table_name_s) if Sequel::SchemaSharding::DTraceProvider.provider.read_only_shard_for.enabled?
           end
         end
 
@@ -82,6 +82,10 @@ module Sequel
           super.tap do |m|
             m.values[:shard_number] = shard_number
           end
+        end
+
+        def table_name_s
+          @table_name_as_string ||= self.table_name.to_s
         end
       end
 
