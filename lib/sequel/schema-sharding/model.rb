@@ -85,7 +85,7 @@ module Sequel
         end
 
         def table_name_s
-          @table_name_as_string ||= self.table_name.to_s
+          @table_name_as_string ||= self.implicit_table_name.to_s
         end
       end
 
