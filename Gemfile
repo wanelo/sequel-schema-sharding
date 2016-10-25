@@ -7,5 +7,4 @@ group :test do
   gem 'rspec'
   gem 'mocha', require: false
   gem 'pry-nav'
-  gem 'guard-rspec'
 end
