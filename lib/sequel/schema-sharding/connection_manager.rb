@@ -65,6 +65,7 @@ module Sequel
           :host => config['host'],
           :database => config['database'],
           :port => config['port'],
+          :connect_timeout => config['connect_timeout'] || 20,
           :single_threaded => true,
           :loggers => [Sequel::SchemaSharding::LoggerProxy.new],
           :pool_class => Sequel::ShardedSingleFailoverConnectionPool,

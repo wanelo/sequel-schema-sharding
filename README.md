@@ -49,6 +49,7 @@ conventions:
     username: <pg_username>
     password: <pg_password>
     port: <pg_port>
+    connect_timeout: 2
 ```
 
 In schema names `%04d` is a ```sprintf``` pattern (http://www.ruby-doc.org/core-2.0.0/Kernel.html#method-i-sprintf), where
