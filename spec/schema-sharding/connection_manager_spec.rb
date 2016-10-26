@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'sequel/schema-sharding/connection_manager'
+require 'ostruct'
 
 describe Sequel::SchemaSharding::ConnectionManager do
   let(:config) { Sequel::SchemaSharding::Configuration.new('test', 'spec/fixtures/test_db_config.yml') }
@@ -16,6 +17,12 @@ describe Sequel::SchemaSharding::ConnectionManager do
       expect(subject['shard1']).to be_a(Sequel::Postgres::Database)
       subject['shard1'].execute("SELECT 1")
       expect(subject['shard2']).to be_a(Sequel::Postgres::Database)
+    end
+
+    it 'sets the connection time out to 20 by default' do
+
+      Sequel.expects(:postgres).with(has_entries(connect_timeout: 20)).returns(OpenStruct.new(disconnect: true))
+      subject['shard1']
     end
 
     context 'read/write splitting' do

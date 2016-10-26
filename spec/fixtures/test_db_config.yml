@@ -26,6 +26,7 @@ test:
   common:
     username: postgres
     password: boomboomkaboom
+    connect_timeout: 2
 boom:
   tables:
     artists:
