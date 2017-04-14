@@ -5,10 +5,6 @@ class Artist < Sequel::SchemaSharding::Model('artists')
   def self.by_id(artist_id)
     shard_for(artist_id).where(artist_id: artist_id)
   end
-  #
-  # def self.implicit_table_name
-  #   'artists'
-  # end
 
   def this
     @this ||= self.class.shard_for(self.artist_id).where(artist_id: self.artist_id)
