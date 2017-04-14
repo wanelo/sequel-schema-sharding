@@ -50,11 +50,9 @@ module Sequel
         # run by the query into the model.
         def shard_for(id)
           result = self.result_for(id)
-          ds = result.connection[schema_and_table(result)]
-          ds.row_proc = self
+          ds = result.connection[schema_and_table(result)].clone(row_proc: self, model: self)
           dataset_method_modules.each { |m| ds.instance_eval { extend(m) } }
           ds.shard_number = result.shard_number
-          ds.model = self
           ds.tap do |d|
             Sequel::SchemaSharding::DTraceProvider.provider.shard_for.fire(id.to_s, d.shard_number, self.table_name_s) if Sequel::SchemaSharding::DTraceProvider.provider.shard_for.enabled?
           end
@@ -68,7 +66,7 @@ module Sequel
 
         # The result of a lookup for the given id. See Sequel::SchemaSharding::Finder::Result
         def result_for(id)
-          Sequel::SchemaSharding::Finder.instance.lookup(self.implicit_table_name, id)
+          Sequel::SchemaSharding::ShardFinder.instance.lookup(self.implicit_table_name, id)
         end
 
         # Construct the schema and table for use in a dataset.
