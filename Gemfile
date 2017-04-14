@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
+  gem 'codeclimate-test-reporter'
+  gem 'simplecov'
   gem 'rspec'
   gem 'mocha', require: false
   gem 'pry-nav'
