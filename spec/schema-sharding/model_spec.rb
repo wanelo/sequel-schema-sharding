@@ -16,12 +16,20 @@ describe Sequel::SchemaSharding, 'Model' do
 
     let(:artist_name) { 'Paul' }
     let(:artist_hash) { { artist_id: artist_id, name: artist_name } }
-    let(:read_back_artist) { Artist.by_id(artist_id).first }
+    let(:read_back_artist_proc) { -> { Artist.by_id(artist_id).first }  }
+    let(:read_back_artist) { read_back_artist_proc[] }
     let(:artist) { Artist.create(artist_hash) }
 
     it 'can create a valid record' do
       expect(artist.artist_id).to eq(artist_id)
       expect(artist.name).to eq(artist_name)
+    end
+
+    it 'can truncate shards to mass-delete data' do
+      expect(artist.artist_id).to eq(artist_id)
+      expect(read_back_artist_proc[]).to be_a_kind_of(Artist)
+      expect(Artist.truncate_shards(artist_id)).to eq(1)
+      expect(read_back_artist_proc[]).to be_nil
     end
 
     context 'with an artist created' do

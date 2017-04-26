@@ -359,3 +359,11 @@ may have been transposed between queries.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+Contributors
+============
+
+* [James Hart](https://github.com/hjhart)
+* [Paul Henry](https://github.com/f3nry)
+* [Eric Saxby](https://github.com/sax)
+* [Konstatin Gredeskoul](https://github.com/kigster)
