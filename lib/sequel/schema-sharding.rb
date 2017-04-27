@@ -6,11 +6,13 @@ require 'sequel/schema-sharding/configuration'
 require 'sequel/schema-sharding/connection_manager'
 require 'sequel/schema-sharding/database_manager'
 require 'sequel/schema-sharding/ring'
-require 'sequel/schema-sharding/finder'
+require 'sequel/schema-sharding/shard_finder'
 require 'sequel/schema-sharding/monkey_patching'
 require 'sequel/schema-sharding/model'
 require 'sequel/schema-sharding/logger_proxy'
 require 'sequel/schema-sharding/connection_strategies/random'
+
+Sequel.split_symbols = true if defined?(Sequel) && Sequel.respond_to?(:split_symbols=)
 
 module Sequel
   module SchemaSharding

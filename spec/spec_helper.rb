@@ -1,5 +1,8 @@
 ENV['RACK_ENV'] ||= 'test'
 
+require 'simplecov'
+SimpleCov.start
+
 require 'bundler/setup'
 Bundler.require 'test'
 
@@ -22,31 +25,8 @@ RSpec.configure do |config|
 
   config.before :all do |ex|
     Sequel::SchemaSharding.logger = Logger.new(StringIO.new)
-    Sequel::SchemaSharding.sharding_yml_path = "spec/fixtures/test_db_config.yml"
-    Sequel::SchemaSharding.migration_path = "spec/fixtures/db/migrate"
-  end
-
-  config.around :each, type: :transactional do |ex|
-    #Sequel::SchemaSharding.config = Sequel::SchemaSharding::Configuration.new('boom', 'spec/fixtures/test_db_config.yml')
-
-    # Start transactions in each connection to the physical shards
-    connections = Sequel::SchemaSharding.config.physical_shard_configs.map do |shard_config|
-      Sequel::SchemaSharding.connection_manager[shard_config[0]]
-    end
-
-    start_transaction_proc = Proc.new do |connections|
-      if connections.length == 0
-        ex.run
-      else
-        connections[0].transaction do
-          connections.shift
-          start_transaction_proc.call(connections)
-          raise Sequel::Rollback
-        end
-      end
-    end
-
-    start_transaction_proc.call(connections)
+    Sequel::SchemaSharding.sharding_yml_path = 'spec/fixtures/test_db_config.yml'
+    Sequel::SchemaSharding.migration_path = 'spec/fixtures/db/migrate'
   end
 
 end

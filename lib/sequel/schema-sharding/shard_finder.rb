@@ -2,7 +2,7 @@ require 'singleton'
 
 module Sequel
   module SchemaSharding
-    class Finder
+    class ShardFinder
       class Result
         attr_reader :connection, :schema, :shard_number
 

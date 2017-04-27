@@ -1,8 +1,7 @@
 Sequel.migration do
   up do
     create_table(migration_schema_for_table(:artists)) do
-      primary_key :id
-      Integer :artist_id
+      Integer :artist_id, unique: true
       String :name, :null=>false
     end
   end

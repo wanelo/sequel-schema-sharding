@@ -1,5 +1,5 @@
 module Sequel
   module SchemaSharding
-    VERSION = "0.13.4"
+    VERSION = '1.0.2'
   end
 end

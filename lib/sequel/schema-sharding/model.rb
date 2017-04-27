@@ -50,11 +50,9 @@ module Sequel
         # run by the query into the model.
         def shard_for(id)
           result = self.result_for(id)
-          ds = result.connection[schema_and_table(result)]
-          ds.row_proc = self
+          ds     = result.connection[schema_and_table(result)].clone(row_proc: self, model: self)
           dataset_method_modules.each { |m| ds.instance_eval { extend(m) } }
           ds.shard_number = result.shard_number
-          ds.model = self
           ds.tap do |d|
             Sequel::SchemaSharding::DTraceProvider.provider.shard_for.fire(id.to_s, d.shard_number, self.table_name_s) if Sequel::SchemaSharding::DTraceProvider.provider.shard_for.enabled?
           end
@@ -66,9 +64,19 @@ module Sequel
           end
         end
 
+        # Dangerous method useful in tests
+        def truncate_shards(*ids)
+          if %w(RACK_ENV RAILS_ENV).any? { |v| ENV[v].eql?('production') }
+            raise ArgumentError, '#truncate_shards is not meant for production'
+          end
+
+          ids.each{ |id| read_only_shard_for(id).truncate }
+          ids.size
+        end
+
         # The result of a lookup for the given id. See Sequel::SchemaSharding::Finder::Result
         def result_for(id)
-          Sequel::SchemaSharding::Finder.instance.lookup(self.implicit_table_name, id)
+          Sequel::SchemaSharding::ShardFinder.instance.lookup(self.implicit_table_name, id)
         end
 
         # Construct the schema and table for use in a dataset.
@@ -78,7 +86,7 @@ module Sequel
 
         def create(values = {}, &block)
           sharded_column_value = values[sharded_column]
-          shard_number = result_for(sharded_column_value).shard_number
+          shard_number         = result_for(sharded_column_value).shard_number
           super.tap do |m|
             m.values[:shard_number] = shard_number
           end

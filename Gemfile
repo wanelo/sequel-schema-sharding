@@ -4,7 +4,9 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
+  gem 'simplecov'
   gem 'rspec'
+  gem 'rspec-benchmark'
   gem 'mocha', require: false
   gem 'pry-nav'
 end

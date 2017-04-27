@@ -1,10 +1,18 @@
 addons:
-    postgresql: "9.3"
+  postgresql: '9.3'
+  code_climate:
+    repo_token:
+      secure: YEh2fV5IEqmR5jmC7mB9ILhQ90qOYKQ9i4pX9NzmWB4DfEo2VJjiiC3D6TJPNb3mqBLgbOyfrvAJ4RrJmWpK0PEDcZv+U9OZ0dEVvWPQ6yy2qBtF/PssIuw3pkgyKxzQpteybAXd3rbwK6Bel66ndCGLmF4gwCKCLuNNRuu38Eo=
 language: ruby
 rvm:
-  - 2.0.0-p247
-  - 2.1.2
-before_script: "bundle exec rake sequel:db:create"
-script: "bundle exec rspec"
+- 2.0.0-p648
+- 2.1.10
+- 2.2.7
+- 2.3.4
+- 2.4.1
+before_script: bundle exec rake sequel:db:create
+script: bundle exec rspec
+after_success:
+- bundle exec codeclimate-test-reporter
 notifications:
   email: false

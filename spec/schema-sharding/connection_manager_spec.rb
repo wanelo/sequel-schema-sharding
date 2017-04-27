@@ -15,7 +15,7 @@ describe Sequel::SchemaSharding::ConnectionManager do
   describe '#[]' do
     it 'returns a valid connection instance for the specified physical shard' do
       expect(subject['shard1']).to be_a(Sequel::Postgres::Database)
-      subject['shard1'].execute("SELECT 1")
+      subject['shard1'].execute('SELECT 1')
       expect(subject['shard2']).to be_a(Sequel::Postgres::Database)
     end
 
@@ -45,7 +45,7 @@ describe Sequel::SchemaSharding::ConnectionManager do
 
       it 'executes a select against a replica' do
         shard = subject['shard2']
-        ds = shard[:"sequel_explosions_boof_pickles_3__artists"]
+        ds = shard[:'sequel_explosions_boof_pickles_3__artists']
         shard.expects(:execute).once.with(anything, server: :read_only)
         ds.first
       end
@@ -58,8 +58,8 @@ describe Sequel::SchemaSharding::ConnectionManager do
     end
   end
 
-  describe "#default_dataset_for" do
-    it "returns a dataset scoped to a configured schema" do
+  describe '#default_dataset_for' do
+    it 'returns a dataset scoped to a configured schema' do
       # TODO ConnectionManager is dependent on global state from Sequel::SchemaSharding.config.
       #      This should be deconstructed to allow for injection of a mock config for testing.
       dataset = subject.default_dataset_for("artists")
