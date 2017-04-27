@@ -12,14 +12,13 @@ describe Sequel::SchemaSharding::ShardFinder do
       expect(result.shard_number).to eq(1)
     end
 
-    xit 'is fast' do
-      TIMES = 150_000
-      result = Benchmark.measure do
-        TIMES.times do
+    context 'performance' do
+      include RSpec::Benchmark::Matchers
+      it 'is fast' do
+        expect do
           Sequel::SchemaSharding::ShardFinder.instance.lookup('boof', 60)
-        end
+        end.to perform_at_least(100000, time: 0.3, warmup: 0.1)
       end
-      puts "performed #{TIMES} finder lookups: #{result}"
     end
   end
 end
