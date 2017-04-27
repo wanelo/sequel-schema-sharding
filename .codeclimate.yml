@@ -1,27 +1,26 @@
 engines:
   rubocop:
     enabled: true
-   bundler-audit:
+  bundler-audit:
     enabled: true
   brakeman:
-   	enabled: true
+    enabled: true
   eslint:
     enabled: false
   csslint:
     enabled: false
   duplication:
-  	enabled: true
+    enabled: true
     config:
-    	languages:
+      languages:
       - ruby
-      	#mass_threshold: 30
       - javascript
 ratings:
   paths:
-  - lib/**
-  - examples/**
+  - "lib/**"
+  - "examples/**"
 exclude_paths:
-- spec/**/*
-- "**/vendor/**/*"
-- .bundle/
-- tmp/
+  - "spec/**/*"
+  - "**/vendor/**/*"
+  - ".bundle/"
+  - "tmp/"

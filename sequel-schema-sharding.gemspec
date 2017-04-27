@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sequel-replica-failover', '~> 2'
   spec.add_dependency 'ruby-usdt', '>= 0.2.2'
 
+  spec.add_development_dependency 'codeclimate-test-reporter'
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
 end
