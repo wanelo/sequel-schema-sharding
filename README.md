@@ -2,7 +2,7 @@ sequel-schema-sharding
 ======================
 
 [![Gem Version](https://badge.fury.io/rb/sequel-schema-sharding.svg)](https://badge.fury.io/rb/sequel-schema-sharding)
-[![Build Status](https://travis-ci.org/wanelo/sequel-schema-sharding.png?branch=master)](https://travis-ci.org/wanelo/sequel-schema-sharding)
+[![Build Status](https://travis-ci.org/wanelo/sequel-schema-sharding.svg?branch=ruby-2.4.sequel-4)](https://travis-ci.org/wanelo/sequel-schema-sharding)
 [![Code Climate](https://codeclimate.com/github/wanelo/sequel-schema-sharding/badges/gpa.svg)](https://codeclimate.com/github/wanelo/sequel-schema-sharding)
 [![Test Coverage](https://codeclimate.com/github/wanelo/sequel-schema-sharding/badges/coverage.svg)](https://codeclimate.com/github/wanelo/sequel-schema-sharding/coverage)
 
