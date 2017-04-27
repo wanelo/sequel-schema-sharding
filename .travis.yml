@@ -1,8 +1,8 @@
 addons:
-  postgresql: "9.3"
+  postgresql: '9.3'
   code_climate:
     repo_token:
-      secure: De89PCKdDhG2WpuS40ZyCZgY/fd+H9muE+/1tGV0WUHD/evrxSNVYzImJTa1ygJInZeEz7lhAdpNXm1LkffEiLgdhoweqzaU14yvJ9Rig/MKMd+paRK8LQzavTMi4C4lNq+W667fZNMw1AJqtxPILCehPJDjkpve+Qfkeo1HMSY=
+      secure: YEh2fV5IEqmR5jmC7mB9ILhQ90qOYKQ9i4pX9NzmWB4DfEo2VJjiiC3D6TJPNb3mqBLgbOyfrvAJ4RrJmWpK0PEDcZv+U9OZ0dEVvWPQ6yy2qBtF/PssIuw3pkgyKxzQpteybAXd3rbwK6Bel66ndCGLmF4gwCKCLuNNRuu38Eo=
 language: ruby
 rvm:
 - 2.0.0-p648
